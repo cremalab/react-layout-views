@@ -1,0 +1,95 @@
+{
+  "name": "react-layout-views",
+  "version": "0.0.1",
+  "main": "index.js",
+  "module": "src/native/index.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cremalab/react-layout-views"
+  },
+  "scripts": {
+    "start": "start-storybook -p 9001",
+    "dist": "rm -rf ./dist/* && webpack --progress --profile --colors --env=prod",
+    "test": "NODE_ENV=test jest",
+    "test:coverage": "yarn test -- --coverage",
+    "test:watch": "yarn test -- --watch",
+    "test:watch:coverage": "yarn test:coverage -- --watch",
+    "test:visual": "run-p test:vis:serve test:vis:run",
+    "test:visual:add": "run-p test:vis:serve test:vis:run:ref:add",
+    "test:visual:reference": "run-p test:vis:serve test:vis:run:ref",
+    "test:vis:serve": "serve storybook-static",
+    "test:vis:serve:stop": "lsof -ti:5000 | xargs kill",
+    "test:vis:build": "build-storybook",
+    "test:vis:run": "run-s test:vis:build test:vis:backstop test:vis:serve:stop",
+    "test:vis:run:ref:add": "run-s test:vis:build test:vis:backstop:ref:add test:vis:serve:stop",
+    "test:vis:run:ref": "run-s test:vis:build test:vis:backstop:ref test:vis:serve:stop",
+    "test:vis:backstop": "backstop --configPath backstopTest.config.js test",
+    "test:vis:backstop:ref:add": "backstop --configPath backstopTest.config.js reference --i",
+    "test:vis:backstop:ref": "backstop --configPath backstopTest.config.js reference",
+    "examples:generate": "run-p examples:serve examples:run:ref",
+    "examples:serve": "serve storybook-static -p 5001",
+    "examples:serve:stop": "lsof -ti:5001 | xargs kill",
+    "examples:build": "build-storybook",
+    "examples:run": "run-s examples:build examples:backstop examples:serve:stop",
+    "examples:run:ref": "run-s examples:build examples:backstop:ref examples:serve:stop",
+    "examples:backstop": "backstop --configPath backstopExamples.config.js test",
+    "examples:backstop:ref": "backstop --configPath backstopExamples.config.js reference"
+  },
+  "devDependencies": {
+    "@kadira/storybook": "^2.35.3",
+    "@types/react-native": "^0.49.5",
+    "babel-loader": "^6.2.5",
+    "babel-plugin-ramda": "1.2.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "backstopjs": "^2.6.11",
+    "case-sensitive-paths-webpack-plugin": "^1.1.4",
+    "enzyme": "2.8.2",
+    "eslint": "^3.14.1",
+    "eslint-plugin-react": "^6.9.0",
+    "getstorybook": "^1.7.0",
+    "jest": "^19.0.0",
+    "jest-enzyme": "^3.0.1",
+    "npm-run-all": "^4.0.2",
+    "phantomjs": "^2.1.7+deprecated",
+    "ramda": "^0.23.0",
+    "react": "^15.4.2",
+    "react-addons-test-utils": "^15.4.2",
+    "react-dom": "15.5.4",
+    "react-native": "^0.49.5",
+    "require-glob-array": "^4.0.0",
+    "serve": "^5.1.2",
+    "source-map-loader": "^0.1.6",
+    "ts-loader": "^3.1.1",
+    "typescript": "^2.6.1",
+    "webpack": "^2.0.0"
+  },
+  "dependencies": {
+  },
+  "peerDependencies": {
+    "react": "*"
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js",
+    "moduleDirectories": [
+      "node_modules",
+      "./src"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json"
+    ],
+    "coverageReporters": [
+      "lcov",
+      "text",
+      "text-summary"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ],
+    "moduleNameMapper": {
+      "react-native": "<rootDir>/node_modules/react-native-web"
+    }
+  }
+}
