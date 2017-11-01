@@ -15,7 +15,7 @@
     "test:coverage": "yarn test -- --coverage",
     "test:watch": "yarn test -- --watch",
     "test:watch:coverage": "yarn test:coverage -- --watch",
-    "prepublish": "npm run dist"
+    "prepare": "npm run dist"
   },
   "devDependencies": {
     "@kadira/storybook": "^2.35.3",
