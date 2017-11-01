@@ -1,14 +1,7 @@
 // import * as React from 'react'
 import React, { Children, cloneElement, SFC } from 'react'
-import { View } from 'react-native'
-
-type Style = {[x: string]: any}
-
-interface LayoutProps {
-  children: React.ReactNode
-  spacing: number
-  style: Style
-}
+import { View, StyleProp, ViewStyle } from 'react-native'
+import { Layout as LayoutProps, Section as SectionProps } from '../../lib/types'
 
 export const Layout: SFC<LayoutProps> = ({style, ...rest}) => {
   return (
@@ -28,7 +21,7 @@ Layout.defaultProps = {
   spacing: 0
 }
 
-const layoutWrapperStyle = (props: any): Style => {
+const layoutWrapperStyle = (props: LayoutProps): StyleProp<ViewStyle>  => {
   const { grow } = props
   return {
     display: 'flex',
@@ -36,16 +29,15 @@ const layoutWrapperStyle = (props: any): Style => {
   }
 }
 
-const layoutStyle = (props: any): Style => {
+const layoutStyle = (props: LayoutProps): StyleProp<ViewStyle> => {
   const { 
-    horizontal, spacing, wrap,
+    horizontal, spacing,
     center, top, right, bottom, left,
   } = props
   return {
     display: 'flex',
     flexDirection: horizontal ? 'row' : 'column',
     margin: -(spacing / 2),
-    ...(wrap ? { flexWrap: 'wrap' } : {}),
     flex: 1,
     ...(horizontal
       ? {
@@ -66,16 +58,10 @@ const layoutStyle = (props: any): Style => {
   }
 }
 
-interface SectionProps {
-  children: React.ReactNode
-  spacing: number
-  style: Style
-}
-
 export const Section: SFC<SectionProps> = ({style, ...rest}) =>
   <View style={[sectionStyle(rest), style]}>{rest.children}</View>
 
-const sectionStyle = (props: any): Style => {
+const sectionStyle = (props: SectionProps): StyleProp<ViewStyle> => {
   const { grow, center, top, right, bottom, left } = props
   const { spacing } = props.parentProps
   return {

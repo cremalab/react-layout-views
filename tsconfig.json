@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
+    "declaration": true,
     "strict": true, 
     "lib": ["es6"],
-    "outDir": "./dist/",
+    "outDir": "./dist",
+    "declarationDir": "./",
     "module": "es2015",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,

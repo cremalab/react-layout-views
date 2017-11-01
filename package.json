@@ -2,6 +2,7 @@
   "name": "react-layout-views",
   "version": "0.0.1",
   "main": "index.js",
+  "types": "./dist/index.d.ts",
   "module": "src/native/index.js",
   "license": "MIT",
   "repository": {
