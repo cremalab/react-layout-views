@@ -24,21 +24,19 @@ Layout.defaultProps = {
 const layoutWrapperStyle = (props: LayoutProps): StyleProp<ViewStyle>  => {
   const { grow } = props
   return {
-    display: 'flex',
-    ...(grow ? { flex: typeof grow === 'number' ? grow : 1 } : {})
+    ...(grow ? { flex: typeof grow === 'number' ? grow : 1 } : { flex: -1 })
   }
 }
 
 const layoutStyle = (props: LayoutProps): StyleProp<ViewStyle> => {
   const { 
-    horizontal, spacing,
+    horizontal, spacing, grow,
     center, top, right, bottom, left,
   } = props
   return {
-    display: 'flex',
     flexDirection: horizontal ? 'row' : 'column',
+    ...(grow ? { flex: typeof grow === 'number' ? grow : 1 } : { flex: -1 }),
     margin: -(spacing / 2),
-    flex: 1,
     ...(horizontal
       ? {
         ...(center ? { alignItems: 'center', justifyContent: 'center' } : {}),
@@ -62,13 +60,21 @@ export const Section: SFC<SectionProps> = ({style, ...rest}) =>
   <View style={[sectionStyle(rest), style]}>{rest.children}</View>
 
 const sectionStyle = (props: SectionProps): StyleProp<ViewStyle> => {
-  const { grow, center, top, right, bottom, left } = props
-  const { spacing } = props.parentProps
+  const { grow, center, centerVertical, centerHorizontal, top, right, bottom, left } = props
+  const { horizontal, spacing } = props.parentProps
   return {
     display: 'flex',
     padding: spacing / 2,
     ...(grow   ? { flex: typeof grow === 'number' ? grow : 1 }      : {}),
     ...(center ? { alignItems: 'center', justifyContent: 'center' } : {}),
+    ...(horizontal
+      ? centerVertical ? { alignItems: 'center' } : {}
+      : centerVertical ? { justifyContent: 'center' } : {}
+    ),
+    ...(horizontal
+      ? centerHorizontal ? { justifyContent: 'center' } : {}
+      : centerHorizontal ? { alignItems: 'center' } : {}
+    ),
     ...(top    ? { justifyContent: 'flex-start' }                   : {}),
     ...(right  ? { alignItems: 'flex-end' }                         : {}),
     ...(bottom ? { justifyContent: 'flex-end' }                     : {}),

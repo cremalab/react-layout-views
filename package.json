@@ -11,6 +11,7 @@
   },
   "scripts": {
     "dist": "rm -rf ./dist/* && webpack --progress --profile --colors --env=prod",
+    "dist:watch": "npm run dist -- -w",
     "test": "NODE_ENV=test jest",
     "test:coverage": "yarn test -- --coverage",
     "test:watch": "yarn test -- --watch",
