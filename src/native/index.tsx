@@ -1,4 +1,3 @@
-// import * as React from 'react'
 import React, { Children, cloneElement, SFC } from 'react'
 import { View, StyleProp, ViewStyle } from 'react-native'
 import { Layout as LayoutProps, Section as SectionProps } from '../../@types/native'
@@ -24,7 +23,7 @@ Layout.defaultProps = {
 const layoutWrapperStyle = (props: LayoutProps): StyleProp<ViewStyle>  => {
   const { grow } = props
   return {
-    ...(grow ? { flex: typeof grow === 'number' ? grow : 1 } : { flex: -1 })
+    ...(grow ? { flex: typeof grow === 'number' ? grow : 1 } : { })
   }
 }
 
@@ -35,7 +34,7 @@ const layoutStyle = (props: LayoutProps): StyleProp<ViewStyle> => {
   } = props
   return {
     flexDirection: horizontal ? 'row' : 'column',
-    ...(grow ? { flex: typeof grow === 'number' ? grow : 1 } : { flex: -1 }),
+    ...(grow ? { flex: typeof grow === 'number' ? grow : 1 } : { }),
     margin: -(spacing / 2),
     ...(horizontal
       ? {
@@ -65,19 +64,13 @@ const sectionStyle = (props: SectionProps): StyleProp<ViewStyle> => {
   return {
     display: 'flex',
     padding: spacing / 2,
-    ...(grow   ? { flex: typeof grow === 'number' ? grow : 1 }      : {}),
-    ...(center ? { alignItems: 'center', justifyContent: 'center' } : {}),
-    ...(horizontal
-      ? centerVertical ? { alignItems: 'center' } : {}
-      : centerVertical ? { justifyContent: 'center' } : {}
-    ),
-    ...(horizontal
-      ? centerHorizontal ? { justifyContent: 'center' } : {}
-      : centerHorizontal ? { alignItems: 'center' } : {}
-    ),
-    ...(top    ? { justifyContent: 'flex-start' }                   : {}),
-    ...(right  ? { alignItems: 'flex-end' }                         : {}),
-    ...(bottom ? { justifyContent: 'flex-end' }                     : {}),
-    ...(left   ? { alignItems: 'flex-start' }                       : {}),
+    ...(grow             ? { flex: typeof grow === 'number' ? grow : 1 }      : {}),
+    ...(center           ? { alignItems: 'center', justifyContent: 'center' } : {}),
+    ...(centerVertical   ? { justifyContent: 'center' }                       : {}),
+    ...(centerHorizontal ? { alignItems: 'center' }                           : {}),
+    ...(top              ? { justifyContent: 'flex-start' }                   : {}),
+    ...(right            ? { alignItems: 'flex-end' }                         : {}),
+    ...(bottom           ? { justifyContent: 'flex-end' }                     : {}),
+    ...(left             ? { alignItems: 'flex-start' }                       : {}),
   }
 }

@@ -10,7 +10,6 @@ module.exports = function() {
       dist: "./src/dist" // web
     },
     output: {
-      // path: './',
       filename: "[name]/index.js",
       library: libraryName,
       libraryTarget: "umd",

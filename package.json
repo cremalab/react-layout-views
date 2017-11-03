@@ -11,28 +11,12 @@
   "scripts": {
     "dist": "rm -rf ./dist/* && webpack --progress --profile --colors --env=prod",
     "dist:watch": "npm run dist -- -w",
-    "test": "NODE_ENV=test jest",
-    "test:coverage": "yarn test -- --coverage",
-    "test:watch": "yarn test -- --watch",
-    "test:watch:coverage": "yarn test:coverage -- --watch",
     "prepare": "npm run dist"
   },
   "devDependencies": {
-    "@kadira/storybook": "^2.35.3",
     "@types/react-native": "^0.49.5",
     "case-sensitive-paths-webpack-plugin": "^1.1.4",
-    "enzyme": "2.8.2",
-    "getstorybook": "^1.7.0",
-    "jest": "^19.0.0",
-    "jest-enzyme": "^3.0.1",
-    "npm-run-all": "^4.0.2",
-    "react": "^15.4.2",
-    "react-addons-test-utils": "^15.4.2",
-    "react-dom": "15.5.4",
-    "react-native": "^0.49.5",
-    "require-glob-array": "^4.0.0",
-    "serve": "^5.1.2",
-    "source-map-loader": "^0.1.6",
+    "react-native": "^0.50.0",
     "ts-loader": "^3.1.1",
     "typescript": "^2.6.1",
     "webpack": "^2.0.0"
@@ -41,31 +25,8 @@
     "css-length": "^1.0.3",
     "styled-components": "^2.2.3"
   },
-  "peerDependencies": {
-    "react": "*",
-    "react-native": "*"
-  },
-  "jest": {
-    "setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js",
-    "moduleDirectories": [
-      "node_modules",
-      "./src"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "json"
-    ],
-    "coverageReporters": [
-      "lcov",
-      "text",
-      "text-summary"
-    ],
-    "coveragePathIgnorePatterns": [
-      "<rootDir>/node_modules/"
-    ],
-    "moduleNameMapper": {
-      "react-native": "<rootDir>/node_modules/react-native-web"
-    }
-  }
+  "files": [
+    "dist",
+    "native"
+  ]
 }
