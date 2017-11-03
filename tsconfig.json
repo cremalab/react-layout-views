@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "strict": true, 
+    "strict": false,
     "lib": ["es6"],
-    "outDir": "./dist",
+    "outDir": "./",
     "declarationDir": "./",
     "module": "es2015",
     "moduleResolution": "node",
@@ -12,11 +12,12 @@
     "jsx": "react",
     "allowJs": false
   },
+  "typeRoots" : ["./@types", "./node_modules"],
   "include": [
     "src/**/*"
   ],
   "exclude": [
-      "node_modules",
-      "**/*.spec.ts"
+    "node_modules",
+    "**/*.spec.ts"
   ]
 }

@@ -4,7 +4,9 @@ backstop_data
 backstopExamples.config.js
 backstopTest.config.js
 storybook-static
-examples
+example-app-native
+example-app-web
+@types
 *.tgz
 .eslintrc
 .gitignore

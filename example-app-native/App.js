@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Layout, Section } from './dist/native'
+import { Layout, Section } from 'react-layout-views/native'
 
 const Container = (props) => <View style={{backgroundColor: 'whitesmoke', padding: 22, flex: 1}} {...props} />
 const Content = (props) => <View style={{backgroundColor: 'teal', padding: 10}} {...props} />

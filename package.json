@@ -1,9 +1,8 @@
 {
   "name": "react-layout-views",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "module": "src/native/index.js",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -38,9 +37,13 @@
     "typescript": "^2.6.1",
     "webpack": "^2.0.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "css-length": "^1.0.3",
+    "styled-components": "^2.2.3"
+  },
   "peerDependencies": {
-    "react": "*"
+    "react": "*",
+    "react-native": "*"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js",

@@ -7,22 +7,28 @@ module.exports = function() {
   return {
     entry: {
       native: "./src/native",
-      // web: "./src"
+      dist: "./src/dist" // web
     },
     output: {
-      path: path.resolve(__dirname, "dist"),
+      // path: './',
       filename: "[name]/index.js",
       library: libraryName,
       libraryTarget: "umd",
       umdNamedDefine: true
     },
     externals: {
-      // "styled-components": {
-      //   commonjs: "styled-components",
-      //   commonjs2: "styled-components",
-      //   amd: "styled-components",
-      //   root: "styled-components"
-      // },
+      "styled-components": {
+        commonjs: "styled-components",
+        commonjs2: "styled-components",
+        amd: "styled-components",
+        root: "styled-components"
+      },
+      "css-length": {
+        commonjs: "css-length",
+        commonjs2: "css-length",
+        amd: "css-length",
+        root: "css-length"
+      },
       react: {
         commonjs: "react",
         commonjs2: "react",
