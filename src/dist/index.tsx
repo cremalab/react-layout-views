@@ -1,0 +1,102 @@
+import React, { Children, cloneElement, SFC } from 'react'
+import styled, { css, StyledComponentClass } from 'styled-components'
+import CSSLength from 'css-length'
+import { Layout as LayoutProps, Section as SectionProps } from '../../@types/web'
+
+export const Layout: SFC<LayoutProps> = ({style, ...rest}) => {
+  const spacingInfo = new CSSLength(rest.spacing)
+  const restAmended = { ...rest, spacingInfo }
+  return (
+    <LayoutWrapper {...restAmended}>
+      <LayoutInner {...restAmended}>
+        {
+          Children.map(rest.children, (child: any) =>
+            child ? cloneElement(child, { parentProps: restAmended }) : null
+          )
+        }
+      </LayoutInner>
+    </LayoutWrapper>
+  )
+}
+
+Layout.defaultProps = {
+  spacing: '0px'
+}
+
+const LayoutWrapper = styled.div`
+  ${({ grow, horizontal }: LayoutProps) => {
+    return css`
+      overflow: hidden;
+      ${(grow || horizontal) && `display: flex;`}
+      ${(grow || horizontal) && `flex: ${typeof grow === 'number' ? grow : 1};`}
+    `
+  }}
+`
+
+const LayoutInner = styled.div`
+  ${({
+    horizontal, spacingInfo, grow,
+    center, top, right, bottom, left
+  }: LayoutProps) => {
+    return css`
+      ${(grow || horizontal) && `display: flex;`}
+      ${(grow || horizontal) && `flex: ${typeof grow === 'number' ? grow : 1};`}
+      flex-direction: ${horizontal ? 'row' : 'column'};
+      margin: ${-(spacingInfo.value / 2) + spacingInfo.unit};
+      ${horizontal 
+        ? css`
+          ${center && `align-items: center; justify-content: center;` }
+          ${top    && `align-items: flex-start;`                      }
+          ${right  && `justify-content: flex-end;`                    }
+          ${bottom && `align-items: flex-end;`                        }
+          ${left   && `justify-content: flex-start;`                  }
+        `
+        : css`
+          ${center && `align-items: center; justify-content: center;` }
+          ${top    && `justify-content: flex-start;`                  }
+          ${right  && `align-items: flex-end;`                        }
+          ${bottom && `justify-content: flex-end;`                    }
+          ${left   && `align-items: flex-start;`                      }
+        `
+      }
+    `
+  }}
+`
+
+export const Section = styled.div`
+  ${(props: SectionProps) => {
+    const { grow, center, centerVertical, centerHorizontal, top, right, bottom, left } = props
+    const { horizontal, spacingInfo } = props.parentProps
+    return css`
+      display: flex;
+      flex-direction: ${horizontal ? 'row' : 'column'};
+      padding: ${(spacingInfo.value / 2) + spacingInfo.unit};
+      ${grow && `flex: ${typeof grow === 'number' ? grow : 1};`    }
+      ${center && `align-items: center; justify-content: center;` }
+      ${horizontal 
+        ? centerVertical && `align-items: center;`    
+        : centerVertical && `justify-content: center;`
+      }
+      ${horizontal 
+        ? centerHorizontal && `align-items: center;`    
+        : centerHorizontal && `justify-content: center;`
+      }
+      ${horizontal 
+        ? css`
+          ${center && `align-items: center; justify-content: center;` }
+          ${top    && `align-items: flex-start;`                      }
+          ${right  && `justify-content: flex-end;`                    }
+          ${bottom && `align-items: flex-end;`                        }
+          ${left   && `justify-content: flex-start;`                  }
+        `
+        : css`
+          ${center && `align-items: center; justify-content: center;` }
+          ${top    && `justify-content: flex-start;`                  }
+          ${right  && `align-items: flex-end;`                        }
+          ${bottom && `justify-content: flex-end;`                    }
+          ${left   && `align-items: flex-start;`                      }
+        `
+      }
+    `
+  }}
+`
