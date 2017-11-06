@@ -6,7 +6,6 @@ backstopTest.config.js
 storybook-static
 example-app-native
 example-app-web
-@types
 *.tgz
 .eslintrc
 .gitignore
