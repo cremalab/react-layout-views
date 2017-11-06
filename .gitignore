@@ -8,7 +8,7 @@ coverage
 
 # production
 build
-/dist
+dist
 native
 storybook-static
 package/*

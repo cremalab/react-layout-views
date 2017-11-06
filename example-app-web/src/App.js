@@ -1,35 +1,52 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
 import { Layout, Section } from 'react-layout-views'
 
-class App extends Component {
+const Container = (props) => <div style={{backgroundColor: 'whitesmoke', padding: 22, flex: 1, display: 'flex'}} {...props} />
+const Content = () => <div style={{backgroundColor: 'orange', padding: 10}} />
+
+const Profile = () =>
+  <Layout horizontal spacing="10px">
+    <Section>
+      <Content />
+    </Section>
+    <Section grow>
+      <Content />
+    </Section>
+  </Layout>
+
+const profiles = [0,1,2,3,4,5]
+
+class App extends React.Component {
   render() {
     return (
-      <Layout grow spacing="50px">
-        <Section>
-          <header>
-            <img src={logo} className="App-logo" alt="logo" />
-            <h1 className="App-title">Welcome to React</h1>
-            <h1 className="App-title">Welcome to React</h1>
-            <h1 className="App-title">Welcome to React</h1>
-            <h1 className="App-title">Welcome to React</h1>
-            <h1 className="App-title">Welcome to React</h1>
-            <h1 className="App-title">Welcome to React</h1>
-            <h1 className="App-title">Welcome to React</h1>
-            <h1 className="App-title">Welcome to React</h1>
-            <h1 className="App-title">Welcome to React</h1>
-            <h1 className="App-title">Welcome to React</h1>
-          </header>
-        </Section>
-        <Section bottom right grow>
-          <p className="App-intro">
-            To get started, edit <code>src/App.js</code> and save to reload.
-          </p>
-        </Section>
-      </Layout>
+      <Container>
+        <Layout spacing="20px" grow>
+          <Section>
+            <Content />
+          </Section>
+          <Section grow bottom>
+            <Layout horizontal spacing='40px' grow>
+              <Section grow bottom>
+                <Layout spacing='20px'>
+                  {profiles.map(x => <Section key={x}><Profile /></Section>)}
+                </Layout>
+              </Section>
+              <Section grow centerVertical>
+                <Layout spacing='20px'>
+                  {profiles.map(x => <Section key={x}><Profile /></Section>)}
+                </Layout>
+              </Section>
+              <Section grow>
+                <Layout spacing='20px'>
+                  {profiles.map(x => <Section key={x}><Profile /></Section>)}
+                </Layout>
+              </Section>
+            </Layout>
+          </Section>
+        </Layout>
+      </Container>
     );
   }
 }
-
 export default App;

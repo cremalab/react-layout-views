@@ -39,6 +39,7 @@ const LayoutInner = styled.div`
     center, top, right, bottom, left
   }: LayoutProps) => {
     return css`
+      display: flex;
       ${(grow || horizontal) && `display: flex;`}
       ${(grow || horizontal) && `flex: ${typeof grow === 'number' ? grow : 1};`}
       flex-direction: ${horizontal ? 'row' : 'column'};
@@ -69,34 +70,17 @@ export const Section = styled.div`
     const { horizontal, spacingInfo } = props.parentProps
     return css`
       display: flex;
-      flex-direction: ${horizontal ? 'row' : 'column'};
+      flex-direction: column;
       padding: ${(spacingInfo.value / 2) + spacingInfo.unit};
-      ${grow && `flex: ${typeof grow === 'number' ? grow : 1};`    }
-      ${center && `align-items: center; justify-content: center;` }
-      ${horizontal 
-        ? centerVertical && `align-items: center;`    
-        : centerVertical && `justify-content: center;`
-      }
-      ${horizontal 
-        ? centerHorizontal && `align-items: center;`    
-        : centerHorizontal && `justify-content: center;`
-      }
-      ${horizontal 
-        ? css`
-          ${center && `align-items: center; justify-content: center;` }
-          ${top    && `align-items: flex-start;`                      }
-          ${right  && `justify-content: flex-end;`                    }
-          ${bottom && `align-items: flex-end;`                        }
-          ${left   && `justify-content: flex-start;`                  }
-        `
-        : css`
-          ${center && `align-items: center; justify-content: center;` }
-          ${top    && `justify-content: flex-start;`                  }
-          ${right  && `align-items: flex-end;`                        }
-          ${bottom && `justify-content: flex-end;`                    }
-          ${left   && `align-items: flex-start;`                      }
-        `
-      }
+      ${grow             && `flex: ${typeof grow === 'number' ? grow : 1 };` }
+      ${center           && `align-items: center; justify-content: center;`  }
+      ${centerVertical   && `justify-content: center;`                       } 
+      ${centerHorizontal && `align-items: center;`                           }     
+      ${center           && `align-items: center; justify-content: center;`  }
+      ${top              && `justify-content: flex-start;`                   }
+      ${right            && `align-items: flex-end;`                         }
+      ${bottom           && `justify-content: flex-end;`                     }
+      ${left             && `align-items: flex-start;`                       }
     `
   }}
 `

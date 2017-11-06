@@ -1,32 +1,49 @@
+import Expo from 'expo';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Layout, Section } from 'react-layout-views/native'
+import { StyleSheet, Text, View, LayoutAnimation } from 'react-native';
+import { Layout, Section } from '../native/index.js'
 
-const Container = (props) => <View style={{backgroundColor: 'whitesmoke', padding: 22, flex: 1}} {...props} />
-const Content = (props) => <View style={{backgroundColor: 'teal', padding: 10}} {...props} />
+const Container = (props) => <View style={{backgroundColor: 'whitesmoke', padding: 22, paddingTop: 44, flex: 1}} {...props} />
+const Content = () => <View style={{backgroundColor: 'magenta', padding: 10}} />
 
+const Profile = () =>
+  <Layout horizontal spacing="10">
+    <Section>
+      <Content />
+    </Section>
+    <Section grow>
+      <Content />
+    </Section>
+  </Layout>
+
+const profiles = [0,1,2,3,4,5]
 
 export default class App extends React.Component {
+  componentDidUpdate() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+  }
   render() {
     return (
       <Container>
-        <Layout grow spacing="20" style={{backgroundColor: 'lightgray'}}>
+        <Layout spacing="20" grow>
           <Section>
-            <Content><Text>1</Text></Content>
+            <Content />
           </Section>
-          <Section grow centerVertical>
-            <Layout horizontal spacing="20" style={{backgroundColor: 'gray'}}>
-              <Section grow>
-                <Content><Text>2</Text></Content>
+          <Section grow bottom>
+            <Layout horizontal spacing='40' grow>
+              <Section grow bottom>
+                <Layout spacing='20'>
+                  {profiles.map(x => <Section key={x}><Profile /></Section>)}
+                </Layout>
               </Section>
-              <Section>
-                <Layout spacing="10" style={{backgroundColor: 'gray'}}>
-                  <Section>
-                    <Content><Text>2</Text></Content>
-                  </Section>
-                  <Section>
-                    <Content><Text>3</Text></Content>
-                  </Section>
+              <Section grow centerVertical>
+                <Layout spacing='20'>
+                  {profiles.map(x => <Section key={x}><Profile /></Section>)}
+                </Layout>
+              </Section>
+              <Section grow>
+                <Layout spacing='20'>
+                  {profiles.map(x => <Section key={x}><Profile /></Section>)}
                 </Layout>
               </Section>
             </Layout>
@@ -36,3 +53,5 @@ export default class App extends React.Component {
     );
   }
 }
+
+Expo.registerRootComponent(App);

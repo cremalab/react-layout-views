@@ -11,12 +11,16 @@
   "scripts": {
     "dist": "rm -rf ./dist/* && webpack --progress --profile --colors --env=prod",
     "dist:watch": "npm run dist -- -w",
-    "prepare": "npm run dist"
+    "prepare": "npm run dist",
+    "example-app-native": "cd example-app-native && npm start",
+    "example-app-web": "cd example-app-web && npm start",
+    "example-apps": "run-p dist:watch example-app-native example-app-web"
   },
   "devDependencies": {
     "@types/react-native": "^0.49.5",
     "case-sensitive-paths-webpack-plugin": "^1.1.4",
-    "react-native": "^0.50.0",
+    "npm-run-all": "^4.1.1",
+    "react": "^16.0.0",
     "ts-loader": "^3.1.1",
     "typescript": "^2.6.1",
     "webpack": "^2.0.0"
@@ -24,6 +28,9 @@
   "dependencies": {
     "css-length": "^1.0.3",
     "styled-components": "^2.2.3"
+  },
+  "peerDependencies": {
+    "react": "*"
   },
   "files": [
     "dist",
