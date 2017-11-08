@@ -1,12 +1,12 @@
 import { StyledProps } from 'styled-components'
-import { HtmlHTMLAttributes, CSSLength } from 'react'
+import { HtmlHTMLAttributes } from 'react'
 
 interface LayoutProps extends HtmlHTMLAttributes<any> {
   grow?: boolean | number
-  spacing?: CSSLength
+  spacing?: string
   spacingInfo?: {
     value: number
-    unit: CSSLength
+    unit: string
   }
   horizontal?: boolean
   center?: boolean
