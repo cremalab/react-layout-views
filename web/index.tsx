@@ -1,7 +1,7 @@
 import React, { Children, cloneElement, SFC } from 'react'
 import styled, { css, ThemedStyledFunction, StyledComponentClass } from 'styled-components'
 import CSSLength from 'css-length'
-import { Layout as LayoutProps, Section as SectionProps } from '../../@types/web'
+import { LayoutProps, SectionProps } from '../typings/web'
 
 function withProps<U>() {
   return <P, T, O>(

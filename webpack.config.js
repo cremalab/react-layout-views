@@ -6,8 +6,8 @@ const libraryName = "react-layout-views";
 module.exports = function() {
   return {
     entry: {
-      native: "./src/native",
-      dist: "./src/dist" // web
+      native: "./native",
+      web: "./web"
     },
     output: {
       filename: "[name]/index.js",

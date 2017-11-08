@@ -1,7 +1,6 @@
-
 import { ViewProperties } from 'react-native'
 
-interface Layout extends ViewProperties {
+interface LayoutProps extends ViewProperties {
   grow: boolean | number
   spacing: number
   horizontal: boolean
@@ -12,8 +11,8 @@ interface Layout extends ViewProperties {
   left: boolean
 }
 
-interface Section extends ViewProperties {
-  parentProps: Layout
+interface SectionProps extends ViewProperties {
+  parentProps: LayoutProps
   grow: boolean | number
   center: boolean
   centerVertical: boolean

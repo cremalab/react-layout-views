@@ -1,6 +1,6 @@
 import React, { Children, cloneElement, SFC } from 'react'
 import { View, StyleProp, ViewStyle } from 'react-native'
-import { Layout as LayoutProps, Section as SectionProps } from '../../@types/native'
+import { LayoutProps, SectionProps } from '../typings/native'
 
 export const Layout: SFC<LayoutProps> = ({style, ...rest}) => {
   return (

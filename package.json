@@ -1,15 +1,15 @@
 {
   "name": "react-layout-views",
   "version": "0.0.1",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./web/index.js",
+  "types": "./web/index.d.ts",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/cremalab/react-layout-views"
   },
   "scripts": {
-    "dist": "rm -rf ./dist/* && webpack --progress --profile --colors --env=prod",
+    "dist": "webpack --progress --profile --colors --env=prod",
     "dist:watch": "npm run dist -- -w",
     "prepare": "npm run dist",
     "example-app-native": "cd example-app-native && npm start",
@@ -33,7 +33,8 @@
     "react": "*"
   },
   "files": [
-    "dist",
-    "native"
+    "web",
+    "native",
+    "typings"
   ]
 }

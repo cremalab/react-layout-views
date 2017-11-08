@@ -7,11 +7,8 @@ node_modules
 coverage
 
 # production
-build
-dist
-native
-storybook-static
-package/*
+web/*.js
+native/*.js
 
 # misc
 .DS_Store

@@ -1,7 +1,7 @@
 import { StyledProps } from 'styled-components'
 import { HtmlHTMLAttributes, CSSLength } from 'react'
 
-interface Layout extends HtmlHTMLAttributes<any> {
+interface LayoutProps extends HtmlHTMLAttributes<any> {
   grow?: boolean | number
   spacing?: CSSLength
   spacingInfo?: {
@@ -16,8 +16,8 @@ interface Layout extends HtmlHTMLAttributes<any> {
   left?: boolean
 }
 
-interface Section extends HtmlHTMLAttributes<any> {
-  parentProps?: Layout
+interface SectionProps extends HtmlHTMLAttributes<any> {
+  parentProps?: LayoutProps
   grow?: boolean | number
   center?: boolean
   centerVertical?: boolean
