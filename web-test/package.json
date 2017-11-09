@@ -1,0 +1,41 @@
+{
+  "name": "example-app-web",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-layout-views": "file:..",
+    "react-scripts": "1.0.16"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public",
+    "loki:test": "loki",
+    "loki:update": "loki update",
+    "loki:approve": "loki approve",
+    "loki:init": "loki init"
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^3.2.14",
+    "@storybook/addon-links": "^3.2.14",
+    "@storybook/react": "^3.2.14",
+    "loki": "^0.7.0"
+  },
+  "loki": {
+    "configurations": {
+      "chrome.laptop": {
+        "target": "chrome.docker",
+        "width": 1024,
+        "height": 768,
+        "deviceScaleFactor": 1,
+        "mobile": false,
+        "fitWindow": false
+      }
+    }
+  }
+}
