@@ -14,8 +14,8 @@ export class Layout extends PureComponent<LayoutProps> {
     spacing: '0px'
   }
   render() {
-    const {style, ...rest} = this.props
-    const spacingInfo = new CSSLength(rest.spacing)
+    const {style, spacing, ...rest} = this.props
+    const spacingInfo = new CSSLength(spacing)
     const restAmended = { ...rest, spacingInfo }
     return (
       <LayoutWrapper {...restAmended}>
