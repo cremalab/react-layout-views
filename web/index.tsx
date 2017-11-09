@@ -1,4 +1,4 @@
-import React, { Children, cloneElement, SFC } from 'react'
+import React, { Children, cloneElement, PureComponent } from 'react'
 import styled, { css, ThemedStyledFunction, StyledComponentClass } from 'styled-components'
 import CSSLength from 'css-length'
 import { LayoutProps, SectionProps } from '../typings/web'
@@ -9,24 +9,26 @@ function withProps<U>() {
   ) => fn as ThemedStyledFunction<P & U, T, O & U>
 }
 
-export const Layout: SFC<LayoutProps> = ({style, ...rest}) => {
-  const spacingInfo = new CSSLength(rest.spacing)
-  const restAmended = { ...rest, spacingInfo }
-  return (
-    <LayoutWrapper {...restAmended}>
-      <LayoutInner {...restAmended}>
-        {
-          Children.map(rest.children, (child: any) =>
-            child ? cloneElement(child, { parentProps: restAmended }) : null
-          )
-        }
-      </LayoutInner>
-    </LayoutWrapper>
-  )
-}
-
-Layout.defaultProps = {
-  spacing: '0px'
+export class Layout extends PureComponent<LayoutProps> {
+  public static defaultProps: Partial<LayoutProps> = {
+    spacing: '0px'
+  }
+  render() {
+    const {style, ...rest} = this.props
+    const spacingInfo = new CSSLength(rest.spacing)
+    const restAmended = { ...rest, spacingInfo }
+    return (
+      <LayoutWrapper {...restAmended}>
+        <LayoutInner {...restAmended}>
+          {
+            Children.map(rest.children, (child: any) =>
+              child ? cloneElement(child, { parentProps: restAmended }) : null
+            )
+          }
+        </LayoutInner>
+      </LayoutWrapper>
+    )
+  }
 }
 
 const LayoutWrapper = withProps<LayoutProps>()(styled.div)`

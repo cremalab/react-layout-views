@@ -1,23 +1,25 @@
-import React, { Children, cloneElement, SFC } from 'react'
+import React, { Children, cloneElement, PureComponent } from 'react'
 import { View, StyleProp, ViewStyle } from 'react-native'
 import { LayoutProps, SectionProps } from '../typings/native'
 
-export const Layout: SFC<LayoutProps> = ({style, ...rest}) => {
-  return (
-    <View style={[layoutWrapperStyle(rest), style]}>
-      <View style={layoutStyle(rest)}>
-        {
-          Children.map(rest.children, (child: any) =>
-            child ? cloneElement(child, { parentProps: rest }) : null
-          )
-        }
+export class Layout extends PureComponent<LayoutProps> {
+  public static defaultProps: Partial<LayoutProps> = {
+    spacing: 0
+  }
+  render() {
+    const {style, ...rest} = this.props
+    return (
+      <View style={[layoutWrapperStyle(rest), style]}>
+        <View style={layoutStyle(rest)}>
+          {
+            Children.map(rest.children, (child: any) =>
+              child ? cloneElement(child, { parentProps: rest }) : null
+            )
+          }
+        </View>
       </View>
-    </View>
-  )
-}
-
-Layout.defaultProps = {
-  spacing: 0
+    )
+  }
 }
 
 const layoutWrapperStyle = (props: LayoutProps): StyleProp<ViewStyle>  => {
@@ -55,8 +57,12 @@ const layoutStyle = (props: LayoutProps): StyleProp<ViewStyle> => {
   }
 }
 
-export const Section: SFC<SectionProps> = ({style, ...rest}) =>
-  <View style={[sectionStyle(rest), style]}>{rest.children}</View>
+export class Section extends PureComponent<SectionProps> {
+  render() {
+    const { style, ...rest } = this.props
+    return <View style={[sectionStyle(rest), style]}>{rest.children}</View>
+  }
+}
 
 const sectionStyle = (props: SectionProps): StyleProp<ViewStyle> => {
   const { grow, center, centerVertical, centerHorizontal, top, right, bottom, left } = props

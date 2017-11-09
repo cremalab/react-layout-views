@@ -1,5 +1,10 @@
 /// <reference types="react" />
-import { SFC } from 'react';
+import { PureComponent } from 'react';
 import { LayoutProps, SectionProps } from '../typings/native';
-export declare const Layout: SFC<LayoutProps>;
-export declare const Section: SFC<SectionProps>;
+export declare class Layout extends PureComponent<LayoutProps> {
+    static defaultProps: Partial<LayoutProps>;
+    render(): JSX.Element;
+}
+export declare class Section extends PureComponent<SectionProps> {
+    render(): JSX.Element;
+}
