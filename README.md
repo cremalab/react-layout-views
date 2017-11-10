@@ -44,6 +44,19 @@ The aim of this library is to provide a simple and intuative API for composing l
 </Layout>
 ```
 
+### Styling
+
+```jsx
+// This example shows how styles may be applied
+// directly to `Layout` and `Section`.
+
+<Layout horizontal spacing='20px' style={{background: 'red'}}> // does not produce inline styles
+  <Section grow>Content 1</Section>
+  <Section>Content 2</Section>
+  <Section style={{padding: '1em'}}>Content 3</Section> // does not produce inline styles
+</Layout>
+```
+
 ## Setup
 
 ### Install
@@ -75,6 +88,7 @@ The `Layout` component wraps multiple `Section` components.
 - `grow?: boolean | number` how should the Layout fill its container
 - `spacing?: number (native) / string (web e.g. 20px, 2%, etc.)` spacing between child `<Section />`s
 - `horizontal?: boolean` are child sections arranged horizontally or vertically
+- `style?: object` JavaScript style object (on the web this is passed to styled-components and will not produce inline-styles). All platform-specific styling is supported.
 
 ##### Alignment
 
@@ -93,6 +107,7 @@ The `Section` component subdivides a `Layout` and contains other components or a
 #### Props
 
 - `grow?: boolean | number` how should the `Section` fill its container
+- `style?: object` JavaScript style object (on the web this is passed to styled-components and will not produce inline-styles). All platform-specific styling is supported.
 
 ##### Alignment
 

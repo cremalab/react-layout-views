@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
-import { Layout, Section } from 'react-layout-views'
+import { Layout, Section } from '../../web'
 
 const Container = (props) => <div style={{backgroundColor: 'whitesmoke', padding: 22, flex: 1, display: 'flex'}} {...props} />
 const Content = () => <div style={{backgroundColor: 'orange', padding: 10}} />
 
 const Profile = () =>
-  <Layout horizontal spacing="10px">
-    <Section>
+  <Layout horizontal spacing="10px" style={{background: 'gray'}}>
+    <Section style={{background: 'teal', padding: '20px'}}>
       <Content />
     </Section>
     <Section grow>

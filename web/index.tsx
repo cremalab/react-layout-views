@@ -2,6 +2,7 @@ import React, { Children, cloneElement, PureComponent } from 'react'
 import styled, { css, ThemedStyledFunction, StyledComponentClass } from 'styled-components'
 import CSSLength from 'css-length'
 import { LayoutProps, SectionProps } from '../typings/web'
+import { string as toStyleString } from 'to-style'
 
 function withProps<U>() {
   return <P, T, O>(
@@ -14,9 +15,10 @@ export class Layout extends PureComponent<LayoutProps> {
     spacing: '0px'
   }
   render() {
-    const {style, spacing, ...rest} = this.props
+    const { style, spacing, ...rest } = this.props
+    const styleString = toStyleString(style)
     const spacingInfo = new CSSLength(spacing)
-    const restAmended = { ...rest, spacingInfo }
+    const restAmended = { ...rest, spacingInfo, styleString }
     return (
       <LayoutWrapper {...restAmended}>
         <LayoutInner {...restAmended}>
@@ -32,11 +34,12 @@ export class Layout extends PureComponent<LayoutProps> {
 }
 
 const LayoutWrapper = withProps<LayoutProps>()(styled.div)`
-  ${({ grow, horizontal }: LayoutProps) => {
+  ${({ grow, horizontal, styleString }: LayoutProps) => {
     return css`
       overflow: hidden;
       ${(grow || horizontal) && `display: flex;`}
       ${(grow || horizontal) && `flex: ${typeof grow === 'number' ? grow : 1};`}
+      ${styleString}
     `
   }}
 `
@@ -72,7 +75,21 @@ const LayoutInner = withProps<LayoutProps>()(styled.div)`
   }}
 `
 
-export const Section = withProps<SectionProps>()(styled.div)`
+export class Section extends PureComponent<SectionProps> {
+  render() {
+    const { style, ...rest } = this.props
+    const styleString = toStyleString(style)
+    return (
+      <SectionWrapper {...rest}>
+        <SectionInner {...rest} styleString={styleString}>
+          {rest.children}
+        </SectionInner>
+      </SectionWrapper>
+    )
+  }
+}
+
+export const SectionWrapper = withProps<SectionProps>()(styled.div)`
   ${(props: SectionProps) => {
     const { grow, center, centerVertical, centerHorizontal, top, right, bottom, left } = props
     const { horizontal, spacingInfo } = props.parentProps
@@ -80,6 +97,17 @@ export const Section = withProps<SectionProps>()(styled.div)`
       display: flex;
       flex-direction: column;
       padding: ${(spacingInfo.value / 2).toString() + spacingInfo.unit};
+      ${grow && `flex: ${typeof grow === 'number' ? grow : 1 };` }
+    `
+  }}
+`
+
+export const SectionInner = withProps<SectionProps>()(styled.div)`
+  ${(props: SectionProps) => {
+    const { grow, center, centerVertical, centerHorizontal, top, right, bottom, left, styleString } = props
+    return css`
+      display: flex;
+      flex-direction: column;
       ${grow             && `flex: ${typeof grow === 'number' ? grow : 1 };` }
       ${center           && `align-items: center; justify-content: center;`  }
       ${centerVertical   && `justify-content: center;`                       } 
@@ -89,6 +117,7 @@ export const Section = withProps<SectionProps>()(styled.div)`
       ${right            && `align-items: flex-end;`                         }
       ${bottom           && `justify-content: flex-end;`                     }
       ${left             && `align-items: flex-start;`                       }
+      ${styleString};
     `
   }}
 `

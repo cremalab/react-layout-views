@@ -8,6 +8,7 @@ interface LayoutProps extends HtmlHTMLAttributes<any> {
     value: number
     unit: string
   }
+  styleString?: string
   horizontal?: boolean
   center?: boolean
   top?: boolean
@@ -18,6 +19,7 @@ interface LayoutProps extends HtmlHTMLAttributes<any> {
 
 interface SectionProps extends HtmlHTMLAttributes<any> {
   parentProps?: LayoutProps
+  styleString?: string
   grow?: boolean | number
   center?: boolean
   centerVertical?: boolean

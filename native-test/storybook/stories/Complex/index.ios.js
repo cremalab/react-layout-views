@@ -29,7 +29,7 @@ export default class App extends React.Component {
           </Section>
           <Section grow bottom>
             <Layout horizontal spacing='40' grow>
-              <Section grow bottom>
+              <Section grow bottom style={{backgroundColor: 'orange', padding: 10}}>
                 <Layout spacing='20'>
                   {profiles.map(x => <Section key={x}><Profile /></Section>)}
                 </Layout>

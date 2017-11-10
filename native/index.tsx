@@ -60,16 +60,29 @@ const layoutStyle = (props: LayoutProps): StyleProp<ViewStyle> => {
 export class Section extends PureComponent<SectionProps> {
   render() {
     const { style, ...rest } = this.props
-    return <View style={[sectionStyle(rest), style]}>{rest.children}</View>
+    return (
+      <View style={sectionWrapperStyle(rest)}>
+        <View style={[sectionInnerStyle(rest), style]}>
+          {rest.children}
+        </View>
+      </View>
+    )
   }
 }
 
-const sectionStyle = (props: SectionProps): StyleProp<ViewStyle> => {
+const sectionWrapperStyle = (props: SectionProps): StyleProp<ViewStyle> => {
+  const { grow } = props
+  const { spacing } = props.parentProps
+  return {
+    padding: spacing / 2,
+    ...(grow ? { flex: typeof grow === 'number' ? grow : 1 } : {}),
+  }
+}
+
+const sectionInnerStyle = (props: SectionProps): StyleProp<ViewStyle> => {
   const { grow, center, centerVertical, centerHorizontal, top, right, bottom, left } = props
   const { horizontal, spacing } = props.parentProps
   return {
-    display: 'flex',
-    padding: spacing / 2,
     ...(grow             ? { flex: typeof grow === 'number' ? grow : 1 }      : {}),
     ...(center           ? { alignItems: 'center', justifyContent: 'center' } : {}),
     ...(centerVertical   ? { justifyContent: 'center' }                       : {}),
