@@ -66,13 +66,11 @@ $ npm install react-layout-views
 
 ### Import
 ```jsx
-// Web
+import { Layout, Section } from 'react-layout-views' // web
 
-import { Layout, Section } from 'react-layout-views`
+// OR
 
-// Native
-
-import { Layout, Section } from 'react-layout-views/native`
+import { Layout, Section } from 'react-layout-views/native' // native
 
 ...
 ```
