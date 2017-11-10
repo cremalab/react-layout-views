@@ -1,6 +1,6 @@
 {
   "name": "react-layout-views",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "./web/index.js",
   "types": "./web/index.d.ts",
   "license": "MIT",
@@ -9,6 +9,7 @@
     "url": "https://github.com/cremalab/react-layout-views"
   },
   "scripts": {
+    "setup": "npm install && npm run apps:install",
     "dist": "webpack --progress --profile --colors --env=prod",
     "dist:watch": "npm run dist -- -w",
     "prepare": "npm run dist",
