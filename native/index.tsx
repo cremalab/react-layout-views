@@ -30,9 +30,10 @@ const layoutWrapperStyle = (props: LayoutProps): StyleProp<ViewStyle>  => {
 }
 
 const layoutStyle = (props: LayoutProps): StyleProp<ViewStyle> => {
-  const { 
+  const {
     horizontal, spacing, grow,
-    center, top, right, bottom, left,
+    center, centerVertical, centerHorizontal, 
+    top, right, bottom, left
   } = props
   return {
     flexDirection: horizontal ? 'row' : 'column',
@@ -40,18 +41,22 @@ const layoutStyle = (props: LayoutProps): StyleProp<ViewStyle> => {
     margin: -(spacing / 2),
     ...(horizontal
       ? {
-        ...(center ? { alignItems: 'center', justifyContent: 'center' } : {}),
-        ...(top    ? { alignItems: 'flex-start' }                       : {}),
-        ...(right  ? { justifyContent: 'flex-end' }                     : {}),
-        ...(bottom ? { alignItems: 'flex-end' }                         : {}),
-        ...(left   ? { justifyContent: 'flex-start' }                   : {}),
+        ...(center           ? { alignItems: 'center', justifyContent: 'center' } : {}),
+        ...(centerVertical   ? { alignItems: 'center' }                           : {}),
+        ...(centerHorizontal ? { justifyContent: 'center' }                       : {}),
+        ...(top              ? { alignItems: 'flex-start' }                       : {}),
+        ...(right            ? { justifyContent: 'flex-end' }                     : {}),
+        ...(bottom           ? { alignItems: 'flex-end' }                         : {}),
+        ...(left             ? { justifyContent: 'flex-start' }                   : {}),
       }
       : {
-        ...(center ? { alignItems: 'center', justifyContent: 'center' } : {}),
-        ...(top    ? { justifyContent: 'flex-start' }                   : {}),
-        ...(right  ? { alignItems: 'flex-end' }                         : {}),
-        ...(bottom ? { justifyContent: 'flex-end' }                     : {}),
-        ...(left   ? { alignItems: 'flex-start' }                       : {}),
+        ...(center           ? { alignItems: 'center', justifyContent: 'center' } : {}),
+        ...(centerVertical   ? { justifyContent: 'center' }                       : {}),
+        ...(centerHorizontal ? { alignItems: 'center' }                           : {}),
+        ...(top              ? { justifyContent: 'flex-start' }                   : {}),
+        ...(right            ? { alignItems: 'flex-end' }                         : {}),
+        ...(bottom           ? { justifyContent: 'flex-end' }                     : {}),
+        ...(left             ? { alignItems: 'flex-start' }                       : {}),
       }
     )
   }
