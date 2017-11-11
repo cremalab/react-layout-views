@@ -1,6 +1,6 @@
 # React Layout Views
 
-Easy peasy layouts for React & React Native.
+Easy layouts for React & React Native
 
 ## Why
 
