@@ -5,6 +5,8 @@ interface LayoutProps extends ViewProperties {
   spacing?: number
   horizontal?: boolean
   center?: boolean
+  centerVertical?: boolean
+  centerHorizontal?: boolean
   top?: boolean
   right?: boolean
   bottom?: boolean

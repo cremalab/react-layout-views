@@ -38,7 +38,8 @@ const LayoutWrapper = withProps<LayoutProps>()(styled.div)`
     return css`
       overflow: hidden;
       ${(grow || horizontal) && `display: flex;`}
-      ${(grow || horizontal) && `flex: ${typeof grow === 'number' ? grow : 1};`}
+      ${grow && `flex: ${typeof grow === 'number' ? grow : 1};`}
+      ${grow && `align-self: stretch;`}
       ${styleString}
     `
   }}
@@ -47,28 +48,34 @@ const LayoutWrapper = withProps<LayoutProps>()(styled.div)`
 const LayoutInner = withProps<LayoutProps>()(styled.div)`
   ${({
     horizontal, spacingInfo, grow,
-    center, top, right, bottom, left
+    center, centerVertical, centerHorizontal, 
+    top, right, bottom, left
   }: LayoutProps) => {
     return css`
       display: flex;
       ${(grow || horizontal) && `display: flex;`}
-      ${(grow || horizontal) && `flex: ${typeof grow === 'number' ? grow : 1};`}
+      ${(grow || horizontal) && `flex: 1;`}
+      ${(grow || horizontal) && `align-self: stretch;`}
       flex-direction: ${horizontal ? 'row' : 'column'};
       margin: ${(-(spacingInfo.value / 2)).toString() + spacingInfo.unit};
       ${horizontal 
         ? css`
-          ${center && `align-items: center; justify-content: center;` }
-          ${top    && `align-items: flex-start;`                      }
-          ${right  && `justify-content: flex-end;`                    }
-          ${bottom && `align-items: flex-end;`                        }
-          ${left   && `justify-content: flex-start;`                  }
+          ${center           && `align-items: center; justify-content: center;` }
+          ${centerVertical   && `align-items: center;`                          } 
+          ${centerHorizontal && `justify-content: center;`                      }   
+          ${top              && `align-items: flex-start;`                      }
+          ${right            && `justify-content: flex-end;`                    }
+          ${bottom           && `align-items: flex-end;`                        }
+          ${left             && `justify-content: flex-start;`                  }
         `
         : css`
-          ${center && `align-items: center; justify-content: center;` }
-          ${top    && `justify-content: flex-start;`                  }
-          ${right  && `align-items: flex-end;`                        }
-          ${bottom && `justify-content: flex-end;`                    }
-          ${left   && `align-items: flex-start;`                      }
+          ${center           && `align-items: center; justify-content: center;` }
+          ${centerVertical   && `justify-content: center;`                      } 
+          ${centerHorizontal && `align-items: center;`                          }   
+          ${top              && `justify-content: flex-start;`                  }
+          ${right            && `align-items: flex-end;`                        }
+          ${bottom           && `justify-content: flex-end;`                    }
+          ${left             && `align-items: flex-start;`                      }
         `
       }
     `

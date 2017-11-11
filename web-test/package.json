@@ -30,9 +30,8 @@
     "configurations": {
       "chrome.laptop": {
         "target": "chrome.docker",
-        "width": 1024,
-        "height": 768,
-        "deviceScaleFactor": 1,
+        "width": 616,
+        "height": 616,
         "mobile": false,
         "fitWindow": false
       }

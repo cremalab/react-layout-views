@@ -11,6 +11,8 @@ interface LayoutProps extends HtmlHTMLAttributes<any> {
   styleString?: string
   horizontal?: boolean
   center?: boolean
+  centerVertical?: boolean
+  centerHorizontal?: boolean
   top?: boolean
   right?: boolean
   bottom?: boolean
