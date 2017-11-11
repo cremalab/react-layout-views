@@ -93,6 +93,8 @@ The `Layout` component wraps multiple `Section` components.
 Alignment props arrange child `Sections` accordingly and can be combined (e.g. `<Layout bottom right>...</Layout>`).
 
 - `center?: boolean`
+- `centerVertical?: boolean`
+- `centerHorizontal?: boolean`
 - `top?: boolean`
 - `right?: boolean`
 - `bottom?: boolean`
