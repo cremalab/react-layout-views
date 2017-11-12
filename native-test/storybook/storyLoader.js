@@ -6,11 +6,13 @@
 
 function loadStories() {
   require('./stories/LayoutAlign.js');
+  require('./stories/SectionAlign.js');
   
 }
 
 const stories = [
   './stories/LayoutAlign.js',
+  './stories/SectionAlign.js',
   
 ];
 
