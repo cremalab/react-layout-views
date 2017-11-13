@@ -8,7 +8,7 @@ Easy layouts for React & React Native
 
 Creating UI layouts should be simple and declarative. 
 
-The aim of this library is to provide a simple and intuative API for composing layouts by abstracting away certain flex concepts like flex-direction and main/cross axis alignment and replacing these with more intuitive terms like `horizontal`, `bottom`, `right`, and `center`.
+The aim of this library is to provide a simple and intuitive API for composing layouts by abstracting away certain flex concepts like flex-direction and main/cross axis alignment and replacing these with more intuitive terms like `horizontal`, `bottom`, `right`, and `center`.
 
 ## Examples
 
