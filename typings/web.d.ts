@@ -1,13 +1,10 @@
-import { StyledProps } from 'styled-components'
-import { HtmlHTMLAttributes } from 'react'
+import * as React from 'react'
 
-interface LayoutProps extends HtmlHTMLAttributes<any> {
+interface LayoutProps extends React.HTMLProps<React.ReactNode> {
   grow?: boolean | number
   spacing?: string
-  spacingInfo: {
-    value: number
-    unit: string
-  }
+  spacingValue?: number
+  spacingUnit?: string
   styleString?: string
   horizontal?: boolean
   center?: boolean
@@ -19,8 +16,8 @@ interface LayoutProps extends HtmlHTMLAttributes<any> {
   left?: boolean
 }
 
-interface SectionProps extends HtmlHTMLAttributes<any> {
-  parentProps: LayoutProps
+interface SectionProps extends React.HTMLProps<React.ReactNode> {
+  parentProps?: LayoutProps
   styleString?: string
   grow?: boolean | number
   center?: boolean

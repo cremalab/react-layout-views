@@ -11,7 +11,7 @@ function withProps<U>() {
   ) => fn as ThemedStyledFunction<P & U, T, O & U>
 }
 
-type Cond = boolean | undefined | number | string
+type Cond = boolean | undefined | number | string | object
 
 const condition = (cond: Cond, style: string | undefined): string => {
   return !!(cond) ? style ? style : '' : ''
@@ -20,12 +20,14 @@ const condition = (cond: Cond, style: string | undefined): string => {
 export class Layout extends PureComponent<LayoutProps> {
   public static defaultProps: Partial<LayoutProps> = {
     spacing: '0px',
+    spacingValue: 0,
+    spacingUnit: 'px'
   }
   render() {
     const { style, spacing, ...rest } = this.props
     const styleString = toStyleString(style)
-    const spacingInfo = new CSSLength(spacing)
-    const restAmended = { ...rest, spacingInfo, styleString }
+    const { value, unit } = new CSSLength(spacing)
+    const restAmended = { ...rest, spacingValue: value, spacingUnit: unit, styleString }
     return (
       <LayoutWrapper {...restAmended}>
         <LayoutInner {...restAmended}>
@@ -54,7 +56,7 @@ const LayoutWrapper = withProps<LayoutProps>()(styled.div) `
 
 const LayoutInner = withProps<LayoutProps>()(styled.div) `
   ${({
-    horizontal, spacingInfo, grow,
+    horizontal, grow, spacingValue, spacingUnit,
     center, centerVertical, centerHorizontal,
     top, right, bottom, left
   }: LayoutProps) => {
@@ -64,7 +66,7 @@ const LayoutInner = withProps<LayoutProps>()(styled.div) `
       ${condition(grow || horizontal, `flex: 1;`)}
       ${condition(grow || horizontal, `align-self: stretch;`)}
       flex-direction: ${horizontal ? 'row' : 'column'};
-      margin: ${(-(spacingInfo.value / 2)).toString() + spacingInfo.unit};
+      ${condition(spacingValue && spacingUnit, `margin: ${(-((spacingValue || 0) / 2)).toString() + spacingUnit};`)}
       ${horizontal
         ? css`
           ${condition(center, `align-items: center; justify-content: center;`)}
@@ -105,12 +107,11 @@ export class Section extends PureComponent<SectionProps> {
 
 export const SectionWrapper = withProps<SectionProps>()(styled.div) `
   ${(props: SectionProps) => {
-    const { grow, center, centerVertical, centerHorizontal, top, right, bottom, left } = props
-    const { spacingInfo } = props.parentProps
+    const { grow, center, centerVertical, centerHorizontal, top, right, bottom, left, parentProps } = props
     return css`
       display: flex;
       flex-direction: column;
-      padding: ${(spacingInfo.value / 2).toString() + spacingInfo.unit};
+      padding: ${((parentProps && parentProps.spacingValue || 0) / 2).toString() + (parentProps && parentProps.spacingUnit)};
       ${condition(grow, `flex: ${typeof grow === 'number' ? grow : 1};`)}
     `
   }}
