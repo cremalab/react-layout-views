@@ -1,5 +1,6 @@
 /// <reference types="react" />
-import React, { PureComponent } from 'react';
+import * as React from 'react';
+import { PureComponent } from 'react';
 import { StyledComponentClass } from 'styled-components';
 import { LayoutProps, SectionProps } from '../typings/web';
 export declare class Layout extends PureComponent<LayoutProps> {

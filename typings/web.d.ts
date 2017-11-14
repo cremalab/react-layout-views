@@ -4,7 +4,7 @@ import { HtmlHTMLAttributes } from 'react'
 interface LayoutProps extends HtmlHTMLAttributes<any> {
   grow?: boolean | number
   spacing?: string
-  spacingInfo?: {
+  spacingInfo: {
     value: number
     unit: string
   }
@@ -20,7 +20,7 @@ interface LayoutProps extends HtmlHTMLAttributes<any> {
 }
 
 interface SectionProps extends HtmlHTMLAttributes<any> {
-  parentProps?: LayoutProps
+  parentProps: LayoutProps
   styleString?: string
   grow?: boolean | number
   center?: boolean

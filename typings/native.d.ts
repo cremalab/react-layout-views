@@ -2,7 +2,7 @@ import { ViewProperties } from 'react-native'
 
 interface LayoutProps extends ViewProperties {
   grow?: boolean | number
-  spacing?: number
+  spacing: number
   horizontal?: boolean
   center?: boolean
   centerVertical?: boolean
@@ -14,7 +14,7 @@ interface LayoutProps extends ViewProperties {
 }
 
 interface SectionProps extends ViewProperties {
-  parentProps?: LayoutProps
+  parentProps: LayoutProps
   grow?: boolean | number
   center?: boolean
   centerVertical?: boolean

@@ -1,8 +1,9 @@
-import React, { Children, cloneElement, PureComponent } from 'react'
+import * as React from 'react'
+import { Children, cloneElement, PureComponent } from 'react'
 import styled, { css, ThemedStyledFunction, StyledComponentClass } from 'styled-components'
-import CSSLength from 'css-length'
-import { LayoutProps, SectionProps } from '../typings/web'
+import * as CSSLength from 'css-length'
 import { string as toStyleString } from 'to-style'
+import { LayoutProps, SectionProps } from '../typings/web'
 
 function withProps<U>() {
   return <P, T, O>(
@@ -10,9 +11,15 @@ function withProps<U>() {
   ) => fn as ThemedStyledFunction<P & U, T, O & U>
 }
 
+type Cond = boolean | undefined | number | string
+
+const condition = (cond: Cond, style: string | undefined): string => {
+  return !!(cond) ? style ? style : '' : ''
+}
+
 export class Layout extends PureComponent<LayoutProps> {
   public static defaultProps: Partial<LayoutProps> = {
-    spacing: '0px'
+    spacing: '0px',
   }
   render() {
     const { style, spacing, ...rest } = this.props
@@ -33,49 +40,49 @@ export class Layout extends PureComponent<LayoutProps> {
   }
 }
 
-const LayoutWrapper = withProps<LayoutProps>()(styled.div)`
+const LayoutWrapper = withProps<LayoutProps>()(styled.div) `
   ${({ grow, horizontal, styleString }: LayoutProps) => {
     return css`
       overflow: hidden;
-      ${(grow || horizontal) && `display: flex;`}
-      ${grow && `flex: ${typeof grow === 'number' ? grow : 1};`}
-      ${grow && `align-self: stretch;`}
-      ${styleString}
+      ${condition(grow || horizontal, `display: flex;`)}
+      ${condition(grow, `flex: ${typeof grow === 'number' ? grow : 1};`)}
+      ${condition(grow, `align-self: stretch;`)}
+      ${condition(styleString, styleString)}
     `
   }}
 `
 
-const LayoutInner = withProps<LayoutProps>()(styled.div)`
+const LayoutInner = withProps<LayoutProps>()(styled.div) `
   ${({
     horizontal, spacingInfo, grow,
-    center, centerVertical, centerHorizontal, 
+    center, centerVertical, centerHorizontal,
     top, right, bottom, left
   }: LayoutProps) => {
     return css`
       display: flex;
-      ${(grow || horizontal) && `display: flex;`}
-      ${(grow || horizontal) && `flex: 1;`}
-      ${(grow || horizontal) && `align-self: stretch;`}
+      ${condition(grow || horizontal, `display: flex;`)}
+      ${condition(grow || horizontal, `flex: 1;`)}
+      ${condition(grow || horizontal, `align-self: stretch;`)}
       flex-direction: ${horizontal ? 'row' : 'column'};
       margin: ${(-(spacingInfo.value / 2)).toString() + spacingInfo.unit};
-      ${horizontal 
+      ${horizontal
         ? css`
-          ${center           && `align-items: center; justify-content: center;` }
-          ${centerVertical   && `align-items: center;`                          } 
-          ${centerHorizontal && `justify-content: center;`                      }   
-          ${top              && `align-items: flex-start;`                      }
-          ${right            && `justify-content: flex-end;`                    }
-          ${bottom           && `align-items: flex-end;`                        }
-          ${left             && `justify-content: flex-start;`                  }
+          ${condition(center, `align-items: center; justify-content: center;`)}
+          ${condition(centerVertical, `align-items: center;`)} 
+          ${condition(centerHorizontal, `justify-content: center;`)}   
+          ${condition(top, `align-items: flex-start;`)}
+          ${condition(right, `justify-content: flex-end;`)}
+          ${condition(bottom, `align-items: flex-end;`)}
+          ${condition(left, `justify-content: flex-start;`)}
         `
         : css`
-          ${center           && `align-items: center; justify-content: center;` }
-          ${centerVertical   && `justify-content: center;`                      } 
-          ${centerHorizontal && `align-items: center;`                          }   
-          ${top              && `justify-content: flex-start;`                  }
-          ${right            && `align-items: flex-end;`                        }
-          ${bottom           && `justify-content: flex-end;`                    }
-          ${left             && `align-items: flex-start;`                      }
+          ${condition(center, `align-items: center; justify-content: center;`)}
+          ${condition(centerVertical, `justify-content: center;`)} 
+          ${condition(centerHorizontal, `align-items: center;`)}   
+          ${condition(top, `justify-content: flex-start;`)}
+          ${condition(right, `align-items: flex-end;`)}
+          ${condition(bottom, `justify-content: flex-end;`)}
+          ${condition(left, `align-items: flex-start;`)}
         `
       }
     `
@@ -96,35 +103,35 @@ export class Section extends PureComponent<SectionProps> {
   }
 }
 
-export const SectionWrapper = withProps<SectionProps>()(styled.div)`
+export const SectionWrapper = withProps<SectionProps>()(styled.div) `
   ${(props: SectionProps) => {
     const { grow, center, centerVertical, centerHorizontal, top, right, bottom, left } = props
-    const { horizontal, spacingInfo } = props.parentProps
+    const { spacingInfo } = props.parentProps
     return css`
       display: flex;
       flex-direction: column;
       padding: ${(spacingInfo.value / 2).toString() + spacingInfo.unit};
-      ${grow && `flex: ${typeof grow === 'number' ? grow : 1 };` }
+      ${condition(grow, `flex: ${typeof grow === 'number' ? grow : 1};`)}
     `
   }}
 `
 
-export const SectionInner = withProps<SectionProps>()(styled.div)`
+export const SectionInner = withProps<SectionProps>()(styled.div) `
   ${(props: SectionProps) => {
     const { grow, center, centerVertical, centerHorizontal, top, right, bottom, left, styleString } = props
     return css`
       display: flex;
       flex-direction: column;
-      ${grow             && `flex: ${typeof grow === 'number' ? grow : 1 };` }
-      ${center           && `align-items: center; justify-content: center;`  }
-      ${centerVertical   && `justify-content: center;`                       } 
-      ${centerHorizontal && `align-items: center;`                           }     
-      ${center           && `align-items: center; justify-content: center;`  }
-      ${top              && `justify-content: flex-start;`                   }
-      ${right            && `align-items: flex-end;`                         }
-      ${bottom           && `justify-content: flex-end;`                     }
-      ${left             && `align-items: flex-start;`                       }
-      ${styleString};
+      ${condition(grow, `flex: ${typeof grow === 'number' ? grow : 1};`)}
+      ${condition(center, `align-items: center; justify-content: center;`)}
+      ${condition(centerVertical, `justify-content: center;`)} 
+      ${condition(centerHorizontal, `align-items: center;`)}     
+      ${condition(center, `align-items: center; justify-content: center;`)}
+      ${condition(top, `justify-content: flex-start;`)}
+      ${condition(right, `align-items: flex-end;`)}
+      ${condition(bottom, `justify-content: flex-end;`)}
+      ${condition(left, `align-items: flex-start;`)}
+      ${condition(styleString, styleString)}
     `
   }}
 `
