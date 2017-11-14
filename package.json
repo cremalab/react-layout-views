@@ -1,6 +1,6 @@
 {
   "name": "react-layout-views",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "main": "./web/index.js",
   "types": "./web/index.d.ts",
   "license": "MIT",
@@ -43,8 +43,10 @@
     "react": "*"
   },
   "files": [
-    "web",
-    "native",
+    "web/index.d.ts",
+    "web/index.js",
+    "native/index.d.ts",
+    "native/index.js",
     "typings"
   ]
 }
