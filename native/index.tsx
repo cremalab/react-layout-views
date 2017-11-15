@@ -3,6 +3,7 @@ import { Children, cloneElement, PureComponent } from 'react'
 import { View, StyleProp, ViewStyle } from 'react-native'
 import { LayoutProps, SectionProps } from '../typings/native'
 
+export type LayoutProps = LayoutProps;
 export class Layout extends PureComponent<LayoutProps> {
   public static defaultProps: Partial<LayoutProps> = {
     spacing: 0
@@ -63,6 +64,7 @@ const layoutStyle = (props: LayoutProps): StyleProp<ViewStyle> => {
   }
 }
 
+export type SectionProps = SectionProps;
 export class Section extends PureComponent<SectionProps> {
   render() {
     const { style, ...rest } = this.props

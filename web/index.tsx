@@ -17,6 +17,7 @@ const condition = (cond: Cond, style: string | undefined): string => {
   return !!(cond) ? style ? style : '' : ''
 }
 
+export type LayoutProps = LayoutProps;
 export class Layout extends PureComponent<LayoutProps> {
   public static defaultProps: Partial<LayoutProps> = {
     spacing: '0px',
@@ -91,6 +92,7 @@ const LayoutInner = withProps<LayoutProps>()(styled.div) `
   }}
 `
 
+export type SectionProps = SectionProps;
 export class Section extends PureComponent<SectionProps> {
   render() {
     const { style, ...rest } = this.props
@@ -105,8 +107,8 @@ export class Section extends PureComponent<SectionProps> {
   }
 }
 
-export const SectionWrapper = withProps<SectionProps>()(styled.div) `
-  ${(props: SectionProps) => {
+const SectionWrapper = withProps<SectionProps>()(styled.div) `
+  ${(props) => {
     const { grow, center, centerVertical, centerHorizontal, top, right, bottom, left, parentProps } = props
     return css`
       display: flex;
@@ -117,8 +119,8 @@ export const SectionWrapper = withProps<SectionProps>()(styled.div) `
   }}
 `
 
-export const SectionInner = withProps<SectionProps>()(styled.div) `
-  ${(props: SectionProps) => {
+const SectionInner = withProps<SectionProps>()(styled.div) `
+  ${(props) => {
     const { grow, center, centerVertical, centerHorizontal, top, right, bottom, left, styleString } = props
     return css`
       display: flex;

@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-interface LayoutProps extends React.HTMLProps<React.ReactNode> {
+export interface LayoutProps extends React.HTMLProps<React.ReactNode> {
   grow?: boolean | number
   spacing?: string
   spacingValue?: number
@@ -16,7 +16,7 @@ interface LayoutProps extends React.HTMLProps<React.ReactNode> {
   left?: boolean
 }
 
-interface SectionProps extends React.HTMLProps<React.ReactNode> {
+export interface SectionProps extends React.HTMLProps<React.ReactNode> {
   parentProps?: LayoutProps
   styleString?: string
   grow?: boolean | number
