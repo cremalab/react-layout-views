@@ -98,10 +98,8 @@ export class Section extends PureComponent<SectionProps> {
     const { style, ...rest } = this.props
     const styleString = toStyleString(style)
     return (
-      <SectionWrapper {...rest}>
-        <SectionInner {...rest} styleString={styleString}>
-          {rest.children}
-        </SectionInner>
+      <SectionWrapper {...rest} styleString={styleString}>
+        {rest.children}
       </SectionWrapper>
     )
   }
@@ -109,22 +107,11 @@ export class Section extends PureComponent<SectionProps> {
 
 const SectionWrapper = withProps<SectionProps>()(styled.div) `
   ${(props) => {
-    const { grow, center, centerVertical, centerHorizontal, top, right, bottom, left, parentProps } = props
+    const { grow, center, centerVertical, centerHorizontal, top, right, bottom, left, parentProps, styleString } = props
     return css`
       display: flex;
       flex-direction: column;
-      padding: ${((parentProps && parentProps.spacingValue || 0) / 2).toString() + (parentProps && parentProps.spacingUnit)};
-      ${condition(grow, `flex: ${typeof grow === 'number' ? grow : 1};`)}
-    `
-  }}
-`
-
-const SectionInner = withProps<SectionProps>()(styled.div) `
-  ${(props) => {
-    const { grow, center, centerVertical, centerHorizontal, top, right, bottom, left, styleString } = props
-    return css`
-      display: flex;
-      flex-direction: column;
+      margin: ${((parentProps && parentProps.spacingValue || 0) / 2).toString() + (parentProps && parentProps.spacingUnit)};
       ${condition(grow, `flex: ${typeof grow === 'number' ? grow : 1};`)}
       ${condition(center, `align-items: center; justify-content: center;`)}
       ${condition(centerVertical, `justify-content: center;`)} 

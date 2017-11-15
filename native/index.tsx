@@ -69,27 +69,18 @@ export class Section extends PureComponent<SectionProps> {
   render() {
     const { style, ...rest } = this.props
     return (
-      <View style={sectionWrapperStyle(rest)}>
-        <View style={[sectionInnerStyle(rest), style]}>
-          {rest.children}
-        </View>
+      <View style={[sectionWrapperStyle(rest), style]}>
+        {rest.children}
       </View>
     )
   }
 }
 
 const sectionWrapperStyle = (props: SectionProps): StyleProp<ViewStyle> => {
-  const { grow } = props
+  const { grow, center, centerVertical, centerHorizontal, top, right, bottom, left } = props
   const { spacing } = props.parentProps
   return {
-    padding: spacing / 2,
-    ...(grow && { flex: typeof grow === 'number' ? grow : 1 }),
-  }
-}
-
-const sectionInnerStyle = (props: SectionProps): StyleProp<ViewStyle> => {
-  const { grow, center, centerVertical, centerHorizontal, top, right, bottom, left } = props
-  return {
+    margin: spacing / 2,
     ...(grow && { flex: typeof grow === 'number' ? grow : 1 }),
     ...(center && { alignItems: 'center', justifyContent: 'center' }),
     ...(centerVertical && { justifyContent: 'center' }),
