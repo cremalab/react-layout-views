@@ -5,17 +5,43 @@ import { LayoutProps, SectionProps } from '../typings/native'
 
 export type LayoutProps = LayoutProps;
 export class Layout extends PureComponent<LayoutProps> {
+  public static displayName = 'Layout'
   public static defaultProps: Partial<LayoutProps> = {
     spacing: 0
   }
   render() {
-    const { style, ...rest } = this.props
+    const {
+      bottom,
+      center,
+      centerVertical,
+      centerHorizontal,
+      grow,
+      horizontal,
+      left,
+      right,
+      spacing,
+      style,
+      top,
+      ...rest
+    } = this.props
+    const trimmedProps = {
+      bottom,
+      center,
+      centerVertical,
+      centerHorizontal,
+      grow,
+      horizontal,
+      left,
+      right,
+      spacing,
+      top,
+    }
     return (
-      <View style={[layoutWrapperStyle(rest), style]}>
-        <View style={layoutStyle(rest)}>
+      <View style={[layoutWrapperStyle(trimmedProps), style]} {...rest}>
+        <View style={layoutStyle(trimmedProps)}>
           {
             Children.map(rest.children, (child: any) =>
-              child ? cloneElement(child, { parentProps: rest }) : null
+              child ? cloneElement(child, { parentProps: trimmedProps }) : null
             )
           }
         </View>
@@ -66,6 +92,7 @@ const layoutStyle = (props: LayoutProps): StyleProp<ViewStyle> => {
 
 export type SectionProps = SectionProps;
 export class Section extends PureComponent<SectionProps> {
+  public static displayName = 'Section'
   render() {
     const { style, ...rest } = this.props
     return (

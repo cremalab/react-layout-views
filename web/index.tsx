@@ -19,22 +19,49 @@ const condition = (cond: Cond, style: string | undefined): string => {
 
 export type LayoutProps = LayoutProps;
 export class Layout extends PureComponent<LayoutProps> {
+  public static displayName = 'Layout'
   public static defaultProps: Partial<LayoutProps> = {
     spacing: '0px',
     spacingValue: 0,
     spacingUnit: 'px'
   }
   render() {
-    const { style, spacing, ...rest } = this.props
-    const styleString = toStyleString(style)
-    const { value, unit } = new CSSLength(spacing)
-    const restAmended = { ...rest, spacingValue: value, spacingUnit: unit, styleString }
+    const {
+      bottom,
+      center,
+      centerVertical,
+      centerHorizontal,
+      grow,
+      horizontal,
+      left,
+      right,
+      spacing,
+      style,
+      top,
+      ...rest
+    } = this.props
+    const styleString = toStyleString(this.props.style)
+    const { value: spacingValue, unit: spacingUnit } = new CSSLength(this.props.spacing)
+    const trimmedProps = {
+      bottom,
+      center,
+      centerVertical,
+      centerHorizontal,
+      grow,
+      horizontal,
+      left,
+      right,
+      spacingValue,
+      spacingUnit,
+      styleString,
+      top,
+    }
     return (
-      <LayoutWrapper {...restAmended}>
-        <LayoutInner {...restAmended}>
+      <LayoutWrapper {...trimmedProps} {...rest}>
+        <LayoutInner {...trimmedProps}>
           {
             Children.map(rest.children, (child: any) =>
-              child ? cloneElement(child, { parentProps: restAmended }) : null
+              child ? cloneElement(child, { parentProps: trimmedProps }) : null
             )
           }
         </LayoutInner>
@@ -94,6 +121,7 @@ const LayoutInner = withProps<LayoutProps>()(styled.div) `
 
 export type SectionProps = SectionProps;
 export class Section extends PureComponent<SectionProps> {
+  public static displayName = 'Section'
   render() {
     const { style, ...rest } = this.props
     const styleString = toStyleString(style)
