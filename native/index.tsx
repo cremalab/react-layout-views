@@ -38,7 +38,7 @@ export class Layout extends PureComponent<LayoutProps> {
     }
     return (
       <View style={[layoutWrapperStyle(trimmedProps), style]} {...rest}>
-        <View style={layoutStyle(trimmedProps)}>
+        <View style={layoutInnerStyle(trimmedProps)}>
           {
             Children.map(rest.children, (child: any) =>
               child ? cloneElement(child, { parentProps: trimmedProps }) : null
@@ -53,11 +53,12 @@ export class Layout extends PureComponent<LayoutProps> {
 const layoutWrapperStyle = (props: LayoutProps): StyleProp<ViewStyle> => {
   const { grow } = props
   return {
-    ...(grow && { flex: typeof grow === 'number' ? grow : 1 })
+    ...(grow && { flex: typeof grow === 'number' ? grow : 1 }),
+    ...(grow && { alignSelf: 'stretch' })
   }
 }
 
-const layoutStyle = (props: LayoutProps): StyleProp<ViewStyle> => {
+const layoutInnerStyle = (props: LayoutProps): StyleProp<ViewStyle> => {
   const {
     horizontal, spacing, grow,
     center, centerVertical, centerHorizontal,

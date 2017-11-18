@@ -6,13 +6,15 @@
     "@storybook/addon-actions": "^3.2.14",
     "@storybook/addon-links": "^3.2.14",
     "@storybook/react-native": "^3.2.14",
+    "css-length": "^1.0.3",
     "jest-expo": "^22.0.0",
     "loki": "^0.7.0",
     "prop-types": "^15.6.0",
     "react-dom": "16.0.0-beta.5",
     "react-native-scripts": "1.7.0",
     "react-native-storybook-loader": "^1.6.0",
-    "react-test-renderer": "16.0.0-beta.5"
+    "react-test-renderer": "16.0.0-beta.5",
+    "styled-components": "^2.2.3"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
@@ -25,8 +27,7 @@
     "loki:test": "loki",
     "loki:update": "loki update",
     "loki:approve": "loki approve",
-    "loki:init": "loki init",
-    "prestorybook": "rnstl"
+    "loki:init": "loki init"
   },
   "jest": {
     "preset": "jest-expo"
@@ -41,13 +42,6 @@
       "ios.iphone7": {
         "target": "ios.simulator"
       }
-    }
-  },
-  "config": {
-    "react-native-storybook-loader": {
-      "searchDir": ["./storybook/stories"],
-      "pattern": "**/*.js",
-      "outputFile": "./storybook/storyLoader.js"
     }
   }
 }

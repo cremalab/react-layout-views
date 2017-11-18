@@ -74,7 +74,7 @@ const LayoutWrapper = withProps<LayoutProps>()(styled.div) `
   ${({ grow, horizontal, styleString }: LayoutProps) => {
     return css`
       overflow: hidden;
-      ${condition(grow || horizontal, `display: flex;`)}
+      display: flex;
       ${condition(grow, `flex: ${typeof grow === 'number' ? grow : 1};`)}
       ${condition(grow, `align-self: stretch;`)}
       ${condition(styleString, styleString)}
@@ -90,8 +90,7 @@ const LayoutInner = withProps<LayoutProps>()(styled.div) `
   }: LayoutProps) => {
     return css`
       display: flex;
-      ${condition(grow || horizontal, `display: flex;`)}
-      ${condition(grow || horizontal, `flex: 1;`)}
+      flex: 1;
       ${condition(grow || horizontal, `align-self: stretch;`)}
       flex-direction: ${horizontal ? 'row' : 'column'};
       ${condition(spacingValue && spacingUnit, `margin: ${(-((spacingValue || 0) / 2)).toString() + spacingUnit};`)}

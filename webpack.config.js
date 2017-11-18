@@ -3,7 +3,7 @@ const webpack = require("webpack")
 
 const libraryName = "react-layout-views";
 
-module.exports = function() {
+module.exports = function () {
   return {
     entry: {
       native: "./native",
@@ -60,8 +60,8 @@ module.exports = function() {
       })
     ],
     resolve: {
-      modules: ["node_modules", path.resolve(__dirname, "src")],
-      extensions: [ ".tsx", ".ts", ".js" ]
+      modules: ["node_modules"],
+      extensions: [".tsx", ".ts", ".js"]
     }
   };
 };

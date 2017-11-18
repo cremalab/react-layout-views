@@ -1,10 +1,9 @@
 import 'loki/configure-react';
-import { configure } from '@storybook/react';
-
-const req = require.context('../src/stories', true, /\.js$/)
+import { configure, storiesOf } from '@storybook/react';
+import stories from '../../stories'
 
 function loadStories() {
-  req.keys().forEach((filename) => req(filename))
+  stories('web', storiesOf)
 }
 
 configure(loadStories, module);
