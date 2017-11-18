@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 export interface LayoutProps extends React.HTMLProps<React.ReactNode> {
+  basis?: string
   grow?: boolean | number
   spacing?: string
   spacingValue?: number
@@ -14,9 +15,12 @@ export interface LayoutProps extends React.HTMLProps<React.ReactNode> {
   right?: boolean
   bottom?: boolean
   left?: boolean
+  noWrap?: boolean
+  wrapEven?: boolean
 }
 
 export interface SectionProps extends React.HTMLProps<React.ReactNode> {
+  basis?: string
   parentProps?: LayoutProps
   styleString?: string
   grow?: boolean | number

@@ -8,20 +8,22 @@ const blockContextWeb = story => <div style={{ display: 'block', width: '100%' }
 const LayoutWeb = (props) => (
   <LayoutBaseWeb
     spacing='10px'
+    {...props}
     style={{
       padding: '10px',
       background: 'hsla(200, 71%, 73%, 1)',
+      ...props.style
     }}
-    {...props }
   />
 )
 const SectionWeb = (props) =>
   <SectionBaseWeb
+    {...props }
     style={{
       padding: '15px',
       background: 'hsla(212, 96%, 47%, 1)',
+      ...props.style
     }}
-    {...props }
   />
 
 const blockContextNative = story => <View>{story()}</View>
@@ -29,20 +31,22 @@ const blockContextNative = story => <View>{story()}</View>
 const LayoutNative = (props) =>
   <LayoutBaseNative
     spacing='10'
+    {...props }
     style={{
       padding: 10,
       backgroundColor: 'hsla(200, 71%, 73%, 1)',
+      ...props.style
     }}
-    {...props }
   />
 
 const SectionNative = (props) =>
   <SectionBaseNative
+    {...props }
     style={{
       padding: 15,
       backgroundColor: 'hsla(212, 96%, 47%, 1)',
+      ...props.style
     }}
-    {...props }
   />
 
 function resolvePlatform(platform) {
@@ -193,6 +197,34 @@ export default function stories(platform, storiesOf) {
     .add('left', () => <SectionAlignment horizontal left />)
     .add('left center', () => <SectionAlignment horizontal left center />)
     .add('left bottom', () => <SectionAlignment horizontal left bottom />)
+
+  const Wrap = (props) =>
+    <Layout
+
+      horizontal
+      spacing={platform === 'web' ? '10px' : 10}
+      {...props}
+    >
+      <Section />
+      <Section />
+      <Section />
+      <Section />
+      <Section />
+      <Section />
+      <Section />
+      <Section />
+      <Section />
+      <Section />
+      <Section />
+      <Section />
+      <Section />
+    </Layout>
+
+  storiesOf('Wrap', module)
+    .addDecorator(blockContext)
+    .add('default', () => <Wrap />)
+    .add('basis', () => <Wrap basis={platform === 'web' ? '100px' : 100} />)
+    .add('basis wrapEven', () => <Wrap wrapEven basis={platform === 'web' ? '100px' : 100} />)
 
   return storiesOf
 }

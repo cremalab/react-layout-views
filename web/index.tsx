@@ -23,10 +23,17 @@ export class Layout extends PureComponent<LayoutProps> {
   public static defaultProps: Partial<LayoutProps> = {
     spacing: '0px',
     spacingValue: 0,
-    spacingUnit: 'px'
+    spacingUnit: 'px',
   }
+
+  constructor() {
+    super()
+    this.handleBasis = this.handleBasis.bind(this)
+  }
+
   render() {
     const {
+      basis,
       bottom,
       center,
       centerVertical,
@@ -34,15 +41,18 @@ export class Layout extends PureComponent<LayoutProps> {
       grow,
       horizontal,
       left,
+      noWrap,
       right,
       spacing,
       style,
       top,
+      wrapEven,
       ...rest
     } = this.props
     const styleString = toStyleString(this.props.style)
     const { value: spacingValue, unit: spacingUnit } = new CSSLength(this.props.spacing)
     const trimmedProps = {
+      basis,
       bottom,
       center,
       centerVertical,
@@ -50,11 +60,13 @@ export class Layout extends PureComponent<LayoutProps> {
       grow,
       horizontal,
       left,
+      noWrap,
       right,
       spacingValue,
       spacingUnit,
       styleString,
       top,
+      wrapEven,
     }
     return (
       <LayoutWrapper {...trimmedProps} {...rest}>
@@ -64,9 +76,29 @@ export class Layout extends PureComponent<LayoutProps> {
               child ? cloneElement(child, { parentProps: trimmedProps }) : null
             )
           }
+          {
+            (basis && wrapEven) && this.handleBasis(trimmedProps)
+          }
         </LayoutInner>
       </LayoutWrapper>
     )
+  }
+
+  handleBasis(trimmedProps: object) {
+    const { children, basis } = this.props
+    if (children instanceof Array) {
+      const length = children && children.length
+      return children.map(x => <Section
+        basis={basis}
+        parentProps={trimmedProps}
+        style={{
+          marginTop: 0,
+          marginBottom: 0
+        }}
+      />)
+    } else {
+      return null
+    }
   }
 }
 
@@ -84,13 +116,15 @@ const LayoutWrapper = withProps<LayoutProps>()(styled.div) `
 
 const LayoutInner = withProps<LayoutProps>()(styled.div) `
   ${({
-    horizontal, grow, spacingValue, spacingUnit,
+    noWrap, horizontal, grow, spacingValue, spacingUnit,
     center, centerVertical, centerHorizontal,
     top, right, bottom, left
   }: LayoutProps) => {
     return css`
       display: flex;
       flex: 1;
+      flex-wrap: wrap;
+      ${condition(noWrap, `flex-wrap: nowrap;`)}
       ${condition(grow || horizontal, `align-self: stretch;`)}
       flex-direction: ${horizontal ? 'row' : 'column'};
       ${condition(spacingValue && spacingUnit, `margin: ${(-((spacingValue || 0) / 2)).toString() + spacingUnit};`)}
@@ -134,11 +168,18 @@ export class Section extends PureComponent<SectionProps> {
 
 const SectionWrapper = withProps<SectionProps>()(styled.div) `
   ${(props) => {
-    const { grow, center, centerVertical, centerHorizontal, top, right, bottom, left, parentProps, styleString } = props
+    const {
+      basis: ownBasis, grow, center, centerVertical, centerHorizontal,
+      top, right, bottom, left, parentProps, styleString
+    } = props
+    const basis = ownBasis || parentProps && parentProps.basis
     return css`
       display: flex;
       flex-direction: column;
+      box-sizing: border-box;
       margin: ${((parentProps && parentProps.spacingValue || 0) / 2).toString() + (parentProps && parentProps.spacingUnit)};
+      ${condition(basis, `flex-basis: ${basis};`)}
+      ${condition(basis, `flex-grow: 1;`)}
       ${condition(grow, `flex: ${typeof grow === 'number' ? grow : 1};`)}
       ${condition(center, `align-items: center; justify-content: center;`)}
       ${condition(centerVertical, `justify-content: center;`)} 
