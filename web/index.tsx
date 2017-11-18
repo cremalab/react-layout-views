@@ -123,7 +123,7 @@ const LayoutInner = withProps<LayoutProps>()(styled.div) `
     return css`
       display: flex;
       flex: 1;
-      flex-wrap: wrap;
+      ${condition(horizontal, `flex-wrap: wrap;`)}
       ${condition(noWrap, `flex-wrap: nowrap;`)}
       ${condition(grow || horizontal, `align-self: stretch;`)}
       flex-direction: ${horizontal ? 'row' : 'column'};

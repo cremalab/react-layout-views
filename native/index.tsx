@@ -96,7 +96,7 @@ const layoutInnerStyle = (props: LayoutProps): StyleProp<ViewStyle> => {
     top, right, bottom, left
   } = props
   return {
-    flexWrap: 'wrap',
+    ...(horizontal && { flexWrap: 'wrap' }),
     ...(noWrap && { flexWrap: 'nowrap' }),
     flexDirection: horizontal ? 'row' : 'column',
     ...(grow && { flex: typeof grow === 'number' ? grow : 1 }),
