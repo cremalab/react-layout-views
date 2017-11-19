@@ -36,8 +36,8 @@ export class Layout extends PureComponent<LayoutProps> {
       basis,
       bottom,
       center,
-      centerVertical,
       centerHorizontal,
+      centerVertical,
       grow,
       horizontal,
       left,
@@ -55,15 +55,15 @@ export class Layout extends PureComponent<LayoutProps> {
       basis,
       bottom,
       center,
-      centerVertical,
       centerHorizontal,
+      centerVertical,
       grow,
       horizontal,
       left,
       noWrap,
       right,
-      spacingValue,
       spacingUnit,
+      spacingValue,
       styleString,
       top,
       wrapEven,
@@ -84,16 +84,16 @@ export class Layout extends PureComponent<LayoutProps> {
     )
   }
 
-  handleBasis(trimmedProps: object) {
+  handleBasis(trimmedProps: LayoutProps) {
     const { children, basis } = this.props
     if (children instanceof Array) {
       const length = children && children.length
       return children.map(x => <Section
         basis={basis}
         parentProps={trimmedProps}
-        style={{
-          marginTop: 0,
-          marginBottom: 0
+        wrapperStyle={{
+          paddingTop: 0,
+          paddingBottom: 0
         }}
       />)
     } else {
@@ -156,11 +156,14 @@ export type SectionProps = SectionProps;
 export class Section extends PureComponent<SectionProps> {
   public static displayName = 'Section'
   render() {
-    const { style, ...rest } = this.props
+    const { style, wrapperStyle, children, ...rest } = this.props
+    const wrapperStyleString = toStyleString(wrapperStyle)
     const styleString = toStyleString(style)
     return (
-      <SectionWrapper {...rest} styleString={styleString}>
-        {rest.children}
+      <SectionWrapper {...rest} styleString={wrapperStyleString}>
+        <SectionInner {...rest} styleString={styleString}>
+          {children}
+        </SectionInner>
       </SectionWrapper>
     )
   }
@@ -169,19 +172,32 @@ export class Section extends PureComponent<SectionProps> {
 const SectionWrapper = withProps<SectionProps>()(styled.div) `
   ${(props) => {
     const {
-      basis: ownBasis, grow, center, centerVertical, centerHorizontal,
-      top, right, bottom, left, parentProps, styleString
+      basis: ownBasis, grow, parentProps, styleString
     } = props
     const basis = ownBasis || parentProps && parentProps.basis
     return css`
       display: flex;
       flex-direction: column;
       box-sizing: border-box;
-      margin: ${((parentProps && parentProps.spacingValue || 0) / 2).toString() + (parentProps && parentProps.spacingUnit)};
-      ${condition(basis, `flex-basis: ${basis};`)}
-      ${condition(basis, `flex-grow: 1;`)}
+      padding: ${((parentProps && parentProps.spacingValue || 0) / 2).toString() + (parentProps && parentProps.spacingUnit)};
+      ${condition(basis, `flex-basis: ${basis}; flex-grow: 1;`)}
       ${condition(grow, `flex: ${typeof grow === 'number' ? grow : 1};`)}
-      ${condition(center, `align-items: center; justify-content: center;`)}
+      ${condition(styleString, styleString)}
+    `
+  }}
+`
+
+const SectionInner = withProps<SectionProps>()(styled.div) `
+  ${(props) => {
+    const {
+      center, centerVertical, centerHorizontal,
+      top, right, bottom, left, parentProps, styleString
+    } = props
+    return css`
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      box-sizing: border-box;
       ${condition(centerVertical, `justify-content: center;`)} 
       ${condition(centerHorizontal, `align-items: center;`)}     
       ${condition(center, `align-items: center; justify-content: center;`)}

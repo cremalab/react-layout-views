@@ -1,9 +1,11 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { Layout as LayoutBaseWeb, Section as SectionBaseWeb } from '../web';
 import { Layout as LayoutBaseNative, Section as SectionBaseNative } from '../native';
 
 const blockContextWeb = story => <div style={{ display: 'block', width: '100%' }}>{story()}</div>;
+const TextWeb = props =>
+  <span>{props.children}</span>
 
 const LayoutWeb = (props) => (
   <LayoutBaseWeb
@@ -26,7 +28,9 @@ const SectionWeb = (props) =>
     }}
   />
 
-const blockContextNative = story => <View>{story()}</View>
+const blockContextNative = story => <View style={{ alignContent: 'flex-start' }}>{story()}</View>
+const TextNative = props =>
+  <Text>{props.children}</Text>
 
 const LayoutNative = (props) =>
   <LayoutBaseNative
@@ -41,7 +45,7 @@ const LayoutNative = (props) =>
 
 const SectionNative = (props) =>
   <SectionBaseNative
-    {...props }
+    {...props}
     style={{
       padding: 15,
       backgroundColor: 'hsla(212, 96%, 47%, 1)',
@@ -54,6 +58,7 @@ function resolvePlatform(platform) {
     return {
       Layout: LayoutWeb,
       Section: SectionWeb,
+      Text: TextWeb,
       blockContext: blockContextWeb
     }
   }
@@ -61,17 +66,18 @@ function resolvePlatform(platform) {
     return {
       Layout: LayoutNative,
       Section: SectionNative,
+      Text: TextNative,
       blockContext: blockContextNative
     }
   }
 }
 
 export default function stories(platform, storiesOf) {
-  const { Layout, Section, blockContext } = resolvePlatform(platform)
+  const { Layout, Section, Text, blockContext } = resolvePlatform(platform)
   const LayoutAlignment = (props) =>
     <Layout {...props}>
       <Section />
-      <Section>
+      <Section >
         <Layout horizontal>
           <Section />
           <Section />
@@ -200,7 +206,6 @@ export default function stories(platform, storiesOf) {
 
   const Wrap = (props) =>
     <Layout
-
       horizontal
       spacing={platform === 'web' ? '10px' : 10}
       {...props}
@@ -223,8 +228,13 @@ export default function stories(platform, storiesOf) {
   storiesOf('Wrap', module)
     .addDecorator(blockContext)
     .add('default', () => <Wrap />)
-    .add('basis', () => <Wrap basis={platform === 'web' ? '100px' : 100} />)
-    .add('basis wrapEven', () => <Wrap wrapEven basis={platform === 'web' ? '100px' : 100} />)
+    .add('basis', () => <Wrap basis={'25%'} />)
+    .add('basis wrapEven', () => <Wrap wrapEven basis={'25%'} />)
+
+  storiesOf('Wrap Flex', module)
+    .add('default', () => <Wrap grow />)
+    .add('basis', () => <Wrap grow basis={platform === 'web' ? '100px' : 100} />)
+    .add('basis wrapEven', () => <Wrap grow wrapEven basis={platform === 'web' ? '100px' : 100} />)
 
   return storiesOf
 }

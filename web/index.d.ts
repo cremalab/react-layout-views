@@ -7,7 +7,7 @@ export declare class Layout extends PureComponent<LayoutProps> {
     static defaultProps: Partial<LayoutProps>;
     constructor();
     render(): JSX.Element;
-    handleBasis(trimmedProps: object): JSX.Element[] | null;
+    handleBasis(trimmedProps: LayoutProps): JSX.Element[] | null;
 }
 export declare type SectionProps = SectionProps;
 export declare class Section extends PureComponent<SectionProps> {
