@@ -88,7 +88,8 @@ export class Layout extends PureComponent<LayoutProps> {
     const { children, basis } = this.props
     if (children instanceof Array) {
       const length = children && children.length
-      return children.map(x => <Section
+      return children.map((_, i) => <Section
+        key={i}
         basis={basis}
         parentProps={trimmedProps}
         wrapperStyle={{
