@@ -85,7 +85,6 @@ const layoutWrapperStyle = (props: LayoutProps): StyleProp<ViewStyle> => {
   const { grow } = props
   return {
     ...(grow && { flexGrow: typeof grow === 'number' ? grow : 1 }),
-    // ...(grow && { alignSelf: 'stretch' })
   }
 }
 
@@ -148,7 +147,7 @@ const sectionWrapperStyle = (props: SectionProps): StyleProp<ViewStyle> => {
   const { spacing } = parentProps
   const basis = ownBasis || parentProps && parentProps.basis
   return {
-    ...(parentProps.horizontal && !basis ? {flexDirection: 'row'} : {}),
+    ...(parentProps.horizontal && !basis ? { flexDirection: 'row' } : {}),
     padding: spacing / 2,
     alignItems: 'stretch',
     ...(basis && { flexBasis: basis, flexGrow: 1 }),

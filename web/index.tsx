@@ -106,7 +106,6 @@ export class Layout extends PureComponent<LayoutProps> {
 const LayoutWrapper = withProps<LayoutProps>()(styled.div) `
   ${({ grow, horizontal, styleString }: LayoutProps) => {
     return css`
-      overflow: hidden;
       display: flex;
       ${condition(grow, `flex: ${typeof grow === 'number' ? grow : 1};`)}
       ${condition(grow, `align-self: stretch;`)}
