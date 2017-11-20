@@ -1,121 +1,228 @@
-import * as React from 'react'
-import { Children, cloneElement, PureComponent } from 'react'
-import { View, StyleProp, ViewStyle } from 'react-native'
-import { LayoutProps, SectionProps } from '../typings/native'
+import * as React from "react";
+import { Children, cloneElement, PureComponent } from "react";
+import { View, StyleProp, ViewStyle } from "react-native";
+import { LayoutProps, SectionProps } from "../typings/native";
 
 export type LayoutProps = LayoutProps;
 export class Layout extends PureComponent<LayoutProps> {
-  public static displayName = 'Layout'
+  public static displayName = "Layout";
   public static defaultProps: Partial<LayoutProps> = {
     spacing: 0
+  };
+
+  constructor() {
+    super();
+    this.handleBasis = this.handleBasis.bind(this);
   }
+
   render() {
     const {
+      basis,
       bottom,
       center,
-      centerVertical,
       centerHorizontal,
+      centerVertical,
       grow,
       horizontal,
       left,
+      reverse,
       right,
       spacing,
       style,
       top,
+      wrapEven,
       ...rest
-    } = this.props
+    } = this.props;
     const trimmedProps = {
+      basis,
       bottom,
       center,
-      centerVertical,
       centerHorizontal,
+      centerVertical,
       grow,
       horizontal,
       left,
+      reverse,
       right,
       spacing,
       top,
-    }
+      wrapEven
+    };
+
     return (
       <View style={[layoutWrapperStyle(trimmedProps), style]} {...rest}>
         <View style={layoutInnerStyle(trimmedProps)}>
-          {
-            Children.map(rest.children, (child: any) =>
+          {Children.map(
+            rest.children,
+            (child: any) =>
               child ? cloneElement(child, { parentProps: trimmedProps }) : null
-            )
-          }
+          )}
+          {basis && wrapEven && this.handleBasis(trimmedProps)}
         </View>
       </View>
-    )
+    );
+  }
+
+  handleBasis(trimmedProps: LayoutProps) {
+    const { children, basis } = this.props;
+    if (children instanceof Array) {
+      const length = children && children.length;
+      return children.map((_, i) => (
+        <Section
+          key={i}
+          basis={basis}
+          parentProps={trimmedProps}
+          wrapperStyle={{
+            paddingTop: 0,
+            paddingBottom: 0
+          }}
+        />
+      ));
+    } else {
+      return null;
+    }
   }
 }
 
 const layoutWrapperStyle = (props: LayoutProps): StyleProp<ViewStyle> => {
-  const { grow } = props
+  const { grow } = props;
+
   return {
-    ...(grow && { flex: typeof grow === 'number' ? grow : 1 }),
-    ...(grow && { alignSelf: 'stretch' })
-  }
-}
+    ...(grow && { flexGrow: typeof grow === "number" ? grow : 1 })
+  };
+};
 
 const layoutInnerStyle = (props: LayoutProps): StyleProp<ViewStyle> => {
   const {
-    horizontal, spacing, grow,
-    center, centerVertical, centerHorizontal,
-    top, right, bottom, left
-  } = props
+    noWrap,
+    horizontal,
+    spacing,
+    grow,
+    center,
+    centerVertical,
+    centerHorizontal,
+    top,
+    reverse,
+    right,
+    bottom,
+    left
+  } = props;
+  const flexStart = reverse ? 'flex-end' : 'flex-start'
+  const flexEnd = reverse ? 'flex-start' : 'flex-end'
   return {
-    flexDirection: horizontal ? 'row' : 'column',
-    ...(grow && { flex: typeof grow === 'number' ? grow : 1 }),
+    ...(grow && { flexGrow: typeof grow === "number" ? grow : 1 }),
+    ...(horizontal && { flexWrap: "wrap" }),
+    ...(noWrap && { flexWrap: "nowrap" }),
+    flexDirection: horizontal
+      ? reverse ? 'row-reverse' : 'row'
+      : reverse ? 'column-reverse' : 'column'
+    ,
     margin: -(spacing / 2),
-    ...(horizontal
+    ...horizontal
       ? {
-        ...(center && { alignItems: 'center', justifyContent: 'center' }),
-        ...(centerVertical && { alignItems: 'center' }),
-        ...(centerHorizontal && { justifyContent: 'center' }),
-        ...(top && { alignItems: 'flex-start' }),
-        ...(right && { justifyContent: 'flex-end' }),
-        ...(bottom && { alignItems: 'flex-end' }),
-        ...(left && { justifyContent: 'flex-start' }),
+        ...(reverse && { justifyContent: flexStart }),
+        ...(center && { alignItems: "center", justifyContent: "center" }),
+        ...(centerHorizontal && { justifyContent: "center" }),
+        ...(centerVertical && { alignItems: "center" }),
+        ...(bottom && { alignItems: flexEnd }),
+        ...(left && { justifyContent: flexStart }),
+        ...(right && { justifyContent: flexEnd }),
+        ...(top && { alignItems: flexStart }),
+        alignContent: "stretch"
       }
       : {
-        ...(center && { alignItems: 'center', justifyContent: 'center' }),
-        ...(centerVertical && { justifyContent: 'center' }),
-        ...(centerHorizontal && { alignItems: 'center' }),
-        ...(top && { justifyContent: 'flex-start' }),
-        ...(right && { alignItems: 'flex-end' }),
-        ...(bottom && { justifyContent: 'flex-end' }),
-        ...(left && { alignItems: 'flex-start' }),
+        ...(reverse && { justifyContent: flexStart }),
+        ...(center && { alignItems: "center", justifyContent: "center" }),
+        ...(centerHorizontal && { alignItems: "center" }),
+        ...(centerVertical && { justifyContent: "center" }),
+        ...(bottom && { justifyContent: flexEnd }),
+        ...(left && { alignItems: flexStart }),
+        ...(right && { alignItems: flexEnd }),
+        ...(top && { justifyContent: flexStart }),
       }
-    )
-  }
-}
+  };
+};
 
 export type SectionProps = SectionProps;
 export class Section extends PureComponent<SectionProps> {
-  public static displayName = 'Section'
+  public static displayName = "Section";
   render() {
-    const { style, ...rest } = this.props
+    const { style, wrapperStyle, children, ...rest } = this.props;
+
     return (
-      <View style={[sectionWrapperStyle(rest), style]}>
-        {rest.children}
+      <View style={[sectionWrapperStyle(rest), wrapperStyle]}>
+        <View style={[sectionInnerStyle(rest), style]}>{children}</View>
       </View>
-    )
+    );
   }
 }
 
 const sectionWrapperStyle = (props: SectionProps): StyleProp<ViewStyle> => {
-  const { grow, center, centerVertical, centerHorizontal, top, right, bottom, left } = props
-  const { spacing } = props.parentProps
+  const {
+    basis: ownBasis,
+    grow,
+    center,
+    centerVertical,
+    centerHorizontal,
+    top,
+    right,
+    bottom,
+    left,
+    parentProps
+  } = props;
+  const { spacing, horizontal } = parentProps;
+  const basis = ownBasis || (parentProps && parentProps.basis);
+
   return {
-    margin: spacing / 2,
-    ...(grow && { flex: typeof grow === 'number' ? grow : 1 }),
-    ...(center && { alignItems: 'center', justifyContent: 'center' }),
-    ...(centerVertical && { justifyContent: 'center' }),
-    ...(centerHorizontal && { alignItems: 'center' }),
-    ...(top && { justifyContent: 'flex-start' }),
-    ...(right && { alignItems: 'flex-end' }),
-    ...(bottom && { justifyContent: 'flex-end' }),
-    ...(left && { alignItems: 'flex-start' }),
-  }
-}
+    padding: spacing / 2,
+    ...(basis && { flexBasis: basis, flexGrow: 1 }),
+    ...(grow && { flexGrow: typeof grow === "number" ? grow : 1 }),
+    ...(!horizontal ? {
+      flexDirection: 'row',
+      alignItems: 'stretch'
+    } : {}),
+
+  };
+};
+
+const sectionInnerStyle = (props: SectionProps): StyleProp<ViewStyle> => {
+  const {
+    basis: ownBasis,
+    grow,
+    center,
+    centerVertical,
+    centerHorizontal,
+    top,
+    right,
+    bottom,
+    left,
+    parentProps
+  } = props;
+  const { spacing } = parentProps;
+  const basis = ownBasis || (parentProps && parentProps.basis);
+
+  const shouldGrowHorizontal =
+    parentProps.horizontal &&
+    !parentProps.centerVertical &&
+    !parentProps.center &&
+    !parentProps.top &&
+    !parentProps.bottom
+
+  const shouldGrowVertical =
+    !parentProps.horizontal &&
+    !parentProps.centerHorizontal &&
+    !parentProps.center &&
+    !parentProps.right &&
+    !parentProps.left
+
+  return {
+    flexGrow: shouldGrowHorizontal || shouldGrowVertical ? 1 : 0,
+    ...(centerVertical && { justifyContent: "center" }),
+    ...(centerHorizontal && { alignItems: "center" }),
+    ...(center && { alignItems: "center", justifyContent: "center" }),
+    ...(top && { justifyContent: "flex-start" }),
+    ...(right && { alignItems: "flex-end" }),
+    ...(bottom && { justifyContent: "flex-end" }),
+    ...(left && { alignItems: "flex-start" })
+  };
+};
