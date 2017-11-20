@@ -10,6 +10,7 @@ export interface LayoutProps extends React.HTMLProps<React.ReactNode> {
   horizontal?: boolean
   left?: boolean
   noWrap?: boolean
+  reverse?: boolean
   right?: boolean
   spacing?: string
   spacingUnit?: string

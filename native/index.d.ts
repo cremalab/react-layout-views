@@ -1,6 +1,6 @@
 /// <reference types="react" />
-import { PureComponent } from 'react';
-import { LayoutProps, SectionProps } from '../typings/native';
+import { PureComponent } from "react";
+import { LayoutProps, SectionProps } from "../typings/native";
 export declare type LayoutProps = LayoutProps;
 export declare class Layout extends PureComponent<LayoutProps> {
     static displayName: string;

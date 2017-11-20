@@ -42,6 +42,7 @@ export class Layout extends PureComponent<LayoutProps> {
       horizontal,
       left,
       noWrap,
+      reverse,
       right,
       spacing,
       style,
@@ -61,6 +62,7 @@ export class Layout extends PureComponent<LayoutProps> {
       horizontal,
       left,
       noWrap,
+      reverse,
       right,
       spacingUnit,
       spacingValue,
@@ -116,36 +118,52 @@ const LayoutWrapper = withProps<LayoutProps>()(styled.div) `
 
 const LayoutInner = withProps<LayoutProps>()(styled.div) `
   ${({
-    noWrap, horizontal, grow, spacingValue, spacingUnit,
-    center, centerVertical, centerHorizontal,
-    top, right, bottom, left
+    bottom,
+    center,
+    centerHorizontal,
+    centerVertical,
+    grow,
+    horizontal,
+    left,
+    noWrap,
+    reverse,
+    right,
+    spacingUnit,
+    spacingValue,
+    top,
   }: LayoutProps) => {
+    const flexStart = reverse ? 'flex-end' : 'flex-start'
+    const flexEnd = reverse ? 'flex-start' : 'flex-end'
     return css`
       display: flex;
-      flex: 1;
+      flex-grow: 1;
+      justify-content: ${flexStart};
       ${condition(horizontal, `flex-wrap: wrap;`)}
       ${condition(noWrap, `flex-wrap: nowrap;`)}
       ${condition(grow || horizontal, `align-self: stretch;`)}
-      flex-direction: ${horizontal ? 'row' : 'column'};
+      flex-direction: ${horizontal
+        ? reverse ? 'row-reverse' : 'row'
+        : reverse ? 'column-reverse' : 'column'
+      };
       ${condition(spacingValue && spacingUnit, `margin: ${(-((spacingValue || 0) / 2)).toString() + spacingUnit};`)}
       ${horizontal
         ? css`
           ${condition(center, `align-items: center; justify-content: center;`)}
           ${condition(centerVertical, `align-items: center;`)} 
           ${condition(centerHorizontal, `justify-content: center;`)}   
-          ${condition(top, `align-items: flex-start;`)}
-          ${condition(right, `justify-content: flex-end;`)}
-          ${condition(bottom, `align-items: flex-end;`)}
-          ${condition(left, `justify-content: flex-start;`)}
+          ${condition(top, `align-items: ${flexStart};`)}
+          ${condition(right, `justify-content: ${flexEnd};`)}
+          ${condition(bottom, `align-items: ${flexEnd};`)}
+          ${condition(left, `justify-content: ${flexStart};`)}
         `
         : css`
           ${condition(center, `align-items: center; justify-content: center;`)}
           ${condition(centerVertical, `justify-content: center;`)} 
           ${condition(centerHorizontal, `align-items: center;`)}   
-          ${condition(top, `justify-content: flex-start;`)}
-          ${condition(right, `align-items: flex-end;`)}
-          ${condition(bottom, `justify-content: flex-end;`)}
-          ${condition(left, `align-items: flex-start;`)}
+          ${condition(top, `justify-content: ${flexStart};`)}
+          ${condition(right, `align-items: ${flexEnd};`)}
+          ${condition(bottom, `justify-content: ${flexEnd};`)}
+          ${condition(left, `align-items: ${flexStart};`)}
         `
       }
     `

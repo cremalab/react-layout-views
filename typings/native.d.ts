@@ -10,6 +10,7 @@ export interface LayoutProps extends ViewProperties {
   horizontal?: boolean
   left?: boolean
   noWrap?: boolean
+  reverse?: boolean
   right?: boolean
   spacing: number
   top?: boolean
