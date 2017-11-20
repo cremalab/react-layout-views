@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 export interface LayoutProps extends React.HTMLProps<React.ReactNode> {
-  basis?: string
+  basis?: string | number
   bottom?: boolean
   center?: boolean
   centerHorizontal?: boolean
@@ -21,7 +21,7 @@ export interface LayoutProps extends React.HTMLProps<React.ReactNode> {
 }
 
 export interface SectionProps extends React.HTMLProps<React.ReactNode> {
-  basis?: string
+  basis?: string | number
   bottom?: boolean
   center?: boolean
   centerHorizontal?: boolean
