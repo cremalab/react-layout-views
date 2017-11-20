@@ -152,7 +152,7 @@ export default function stories(platform, storiesOf) {
   const SectionAlignment = props => (
     <Layout grow>
       <Section grow {...props}>
-        <Text style={{ fontSize: 20 }}>X</Text>
+        <Text>X</Text>
       </Section>
     </Layout>
   );
@@ -217,8 +217,10 @@ export default function stories(platform, storiesOf) {
 
   storiesOf("Reverse", module)
     .add("reverse column", () => <Reverse grow />)
+    .add("reverse column center", () => <Reverse grow center />)
     .add("reverse column bottom", () => <Reverse grow bottom />)
     .add("reverse row", () => <Reverse grow horizontal />)
+    .add("reverse row center", () => <Reverse grow horizontal center />)
     .add("reverse row right", () => <Reverse grow horizontal right />)
 
   return storiesOf;
@@ -227,7 +229,7 @@ export default function stories(platform, storiesOf) {
 const blockContextWeb = story => (
   <div style={{ display: "block", width: "100%" }}>{story()}</div>
 );
-const TextWeb = props => <span {...props} />;
+const TextWeb = props => <span style={{ fontSize: 20, color: 'white' }} {...props} />;
 
 const LayoutWeb = props => (
   <LayoutBaseWeb
@@ -254,7 +256,11 @@ const SectionWeb = props => (
 const blockContextNative = story => (
   <View style={{ alignContent: "flex-start" }}>{story()}</View>
 );
-const TextNative = props => <Text {...props} />;
+const TextNative = props =>
+  <Text
+    style={{ fontSize: 20, color: 'white' }}
+    {...props}
+  />;
 
 const LayoutNative = props => (
   <LayoutBaseNative

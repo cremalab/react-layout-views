@@ -25,6 +25,7 @@ export class Layout extends PureComponent<LayoutProps> {
       grow,
       horizontal,
       left,
+      reverse,
       right,
       spacing,
       style,
@@ -41,6 +42,7 @@ export class Layout extends PureComponent<LayoutProps> {
       grow,
       horizontal,
       left,
+      reverse,
       right,
       spacing,
       top,
@@ -118,6 +120,7 @@ const layoutInnerStyle = (props: LayoutProps): StyleProp<ViewStyle> => {
     margin: -(spacing / 2),
     ...horizontal
       ? {
+        ...(reverse && { justifyContent: flexStart }),
         ...(center && { alignItems: "center", justifyContent: "center" }),
         ...(centerHorizontal && { justifyContent: "center" }),
         ...(centerVertical && { alignItems: "center" }),
@@ -128,6 +131,7 @@ const layoutInnerStyle = (props: LayoutProps): StyleProp<ViewStyle> => {
         alignContent: "stretch"
       }
       : {
+        ...(reverse && { justifyContent: flexStart }),
         ...(center && { alignItems: "center", justifyContent: "center" }),
         ...(centerHorizontal && { alignItems: "center" }),
         ...(centerVertical && { justifyContent: "center" }),
