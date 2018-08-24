@@ -1,21 +1,13 @@
 import * as React from 'react'
 import { Children, cloneElement, PureComponent } from 'react'
-import styled, { css, ThemedStyledFunction, StyledComponentClass } from 'styled-components'
 import * as CSSLength from 'css-length'
-import { string as toStyleString } from 'to-style'
 import { LayoutProps, SectionProps } from '../typings/web'
-
-function withProps<U>() {
-  return <P, T, O>(
-    fn: ThemedStyledFunction<P, T, O>
-  ) => fn as ThemedStyledFunction<P & U, T, O & U>
-}
 
 type Cond = boolean | undefined | number | string | object
 
-const condition = (cond: Cond, style: string | undefined): string => {
-  return !!(cond) ? style ? style : '' : ''
-}
+const conditionAttrs = (cond: Cond, cssObj: React.CSSProperties): React.CSSProperties => {
+  return !!(cond) ? cssObj : {}
+};
 
 export type LayoutProps = LayoutProps;
 export class Layout extends PureComponent<LayoutProps> {
@@ -45,12 +37,10 @@ export class Layout extends PureComponent<LayoutProps> {
       reverse,
       right,
       spacing,
-      style,
       top,
       wrapEven,
       ...rest
     } = this.props
-    const styleString = toStyleString(this.props.style)
     const { value: spacingValue, unit: spacingUnit } = new CSSLength(this.props.spacing)
     const trimmedProps = {
       basis,
@@ -66,7 +56,6 @@ export class Layout extends PureComponent<LayoutProps> {
       right,
       spacingUnit,
       spacingValue,
-      styleString,
       top,
       wrapEven,
     }
@@ -105,81 +94,67 @@ export class Layout extends PureComponent<LayoutProps> {
   }
 }
 
-const LayoutWrapper = withProps<LayoutProps>()(styled.div) `
-  ${({ grow, horizontal, styleString }: LayoutProps) => {
-    return css`
-      display: flex;
-      ${condition(grow, `flex: ${typeof grow === 'number' ? grow : 1};`)}
-      ${condition(grow, `align-self: stretch;`)}
-      ${condition(styleString, styleString)}
-    `
-  }}
-`
+const LayoutWrapper = ({ grow, horizontal, styleString, style, children }: LayoutProps) => {
+  const myStyle: React.CSSProperties = {
+    display: 'flex',
+    flex: grow ? typeof grow === 'number' ? grow : 1 : undefined,
+    alignSelf: grow ? 'stretch' : undefined,
+    ...style
+  }
+  return (
+    <div style={myStyle} children={children} />
+  )
+}
 
-const LayoutInner = withProps<LayoutProps>()(styled.div) `
-  ${({
-    bottom,
-    center,
-    centerHorizontal,
-    centerVertical,
-    grow,
-    horizontal,
-    left,
-    noWrap,
-    reverse,
-    right,
-    spacingUnit,
-    spacingValue,
-    top,
-  }: LayoutProps) => {
-    const flexStart = reverse ? 'flex-end' : 'flex-start'
-    const flexEnd = reverse ? 'flex-start' : 'flex-end'
-    return css`
-      display: flex;
-      flex-grow: 1;
-      justify-content: ${flexStart};
-      ${condition(horizontal, `flex-wrap: wrap;`)}
-      ${condition(noWrap, `flex-wrap: nowrap;`)}
-      ${condition(grow || horizontal, `align-self: stretch;`)}
-      flex-direction: ${horizontal
-        ? reverse ? 'row-reverse' : 'row'
-        : reverse ? 'column-reverse' : 'column'
-      };
-      ${condition(spacingValue && spacingUnit, `margin: ${(-((spacingValue || 0) / 2)).toString() + spacingUnit};`)}
-      ${horizontal
-        ? css`
-          ${condition(center, `align-items: center; justify-content: center;`)}
-          ${condition(centerVertical, `align-items: center;`)} 
-          ${condition(centerHorizontal, `justify-content: center;`)}   
-          ${condition(top, `align-items: ${flexStart};`)}
-          ${condition(right, `justify-content: ${flexEnd};`)}
-          ${condition(bottom, `align-items: ${flexEnd};`)}
-          ${condition(left, `justify-content: ${flexStart};`)}
-        `
-        : css`
-          ${condition(center, `align-items: center; justify-content: center;`)}
-          ${condition(centerVertical, `justify-content: center;`)} 
-          ${condition(centerHorizontal, `align-items: center;`)}   
-          ${condition(top, `justify-content: ${flexStart};`)}
-          ${condition(right, `align-items: ${flexEnd};`)}
-          ${condition(bottom, `justify-content: ${flexEnd};`)}
-          ${condition(left, `align-items: ${flexStart};`)}
-        `
-      }
-    `
-  }}
-`
+const LayoutInner = ({
+  bottom,
+  center,
+  centerHorizontal,
+  centerVertical,
+  grow,
+  horizontal,
+  left,
+  noWrap,
+  reverse,
+  right,
+  spacingUnit,
+  spacingValue,
+  top,
+  children,
+}: LayoutProps) => {
+  const flexStart = reverse ? 'flex-end' : 'flex-start'
+  const flexEnd = reverse ? 'flex-start' : 'flex-end'
+  const myStyle: React.CSSProperties = {
+    display: 'flex',
+    flexGrow: 1,
+    justifyContent: flexStart,
+    flexWrap: horizontal ? 'wrap' : noWrap ? 'nowrap' : undefined,
+    alignSelf: grow || horizontal ? 'stretch' : undefined,
+    flexDirection: horizontal
+      ? reverse ? 'row-reverse' : 'row'
+      : reverse ? 'column-reverse' : 'column',
+    ...conditionAttrs(spacingValue && spacingUnit, { margin: (-((spacingValue || 0) / 2)).toString() + spacingUnit }),
+    ...conditionAttrs(center, { alignItems: "center", justifyContent: "center" }),
+    ...conditionAttrs(centerVertical, horizontal ? { alignItems: "center" } : { justifyContent: "center" }),
+    ...conditionAttrs(centerHorizontal, horizontal ? { justifyContent: "center" } : { alignItems: "center" }),
+    ...conditionAttrs(top, horizontal ? { alignItems: flexStart } : { justifyContent: flexStart }),
+    ...conditionAttrs(right, horizontal ? { justifyContent: flexEnd } : { alignItems: flexEnd }),
+    ...conditionAttrs(bottom, horizontal ? { alignItems: flexEnd } : { justifyContent: flexEnd }),
+    ...conditionAttrs(left, horizontal ? { justifyContent: flexStart } : { alignItems: flexStart }),
+  }
+  return (
+    <div style={myStyle} children={children} />
+  )
+};
 
 export type SectionProps = SectionProps;
 export class Section extends PureComponent<SectionProps> {
   public static displayName = 'Section'
   render() {
     const { style, wrapperStyle, children, ...rest } = this.props
-    const wrapperStyleString = toStyleString(wrapperStyle)
-    const styleString = toStyleString(style)
     return (
-      <SectionWrapper {...rest} styleString={wrapperStyleString}>
-        <SectionInner {...rest} styleString={styleString}>
+      <SectionWrapper {...rest} style={wrapperStyle}>
+        <SectionInner {...rest} style={style}>
           {children}
         </SectionInner>
       </SectionWrapper>
@@ -187,43 +162,45 @@ export class Section extends PureComponent<SectionProps> {
   }
 }
 
-const SectionWrapper = withProps<SectionProps>()(styled.div) `
-  ${(props) => {
-    const {
-      basis: ownBasis, grow, parentProps, styleString
-    } = props
-    const basis = ownBasis || parentProps && parentProps.basis
-    return css`
-      display: flex;
-      flex-direction: column;
-      box-sizing: border-box;
-      padding: ${((parentProps && parentProps.spacingValue || 0) / 2).toString() + (parentProps && parentProps.spacingUnit)};
-      ${condition(basis, `flex-basis: ${basis}; flex-grow: 1;`)}
-      ${condition(grow, `flex: ${typeof grow === 'number' ? grow : 1};`)}
-      ${condition(styleString, styleString)}
-    `
-  }}
-`
+const SectionWrapper = (props: SectionProps) => {
+  const {
+    basis: ownBasis, grow, parentProps, style, children,
+  } = props;
+  const basis = ownBasis || parentProps && parentProps.basis
+  const myStyle: React.CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+    boxSizing: "border-box",
+    padding: ((parentProps && parentProps.spacingValue || 0) / 2).toString() + (parentProps && parentProps.spacingUnit),
+    ...conditionAttrs(basis, { flexBasis: basis, flexGrow: 1 }),
+    ...conditionAttrs(grow, { flex: typeof grow === 'number' ? grow : 1 }),
+    ...style,
+  }
+  return (
+    <div style={myStyle} children={children} />
+  )
+}
 
-const SectionInner = withProps<SectionProps>()(styled.div) `
-  ${(props) => {
-    const {
-      center, centerVertical, centerHorizontal,
-      top, right, bottom, left, parentProps, styleString
-    } = props
-    return css`
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-      box-sizing: border-box;
-      ${condition(centerVertical, `justify-content: center;`)} 
-      ${condition(centerHorizontal, `align-items: center;`)}     
-      ${condition(center, `align-items: center; justify-content: center;`)}
-      ${condition(top, `justify-content: flex-start;`)}
-      ${condition(right, `align-items: flex-end;`)}
-      ${condition(bottom, `justify-content: flex-end;`)}
-      ${condition(left, `align-items: flex-start;`)}
-      ${condition(styleString, styleString)}
-    `
-  }}
-`
+const SectionInner = (props: SectionProps) => {
+  const {
+    center, centerVertical, centerHorizontal,
+    top, right, bottom, left, parentProps, style, children,
+  } = props
+  const myStyle: React.CSSProperties = {
+    display: "flex",
+    flex: 1,
+    flexDirection: "column",
+    boxSizing: "border-box",
+    ...conditionAttrs(centerVertical, { justifyContent: "center" }),
+    ...conditionAttrs(centerHorizontal, { alignItems: "center" }),
+    ...conditionAttrs(center, { alignItems: "center", justifyContent: "center" }),
+    ...conditionAttrs(top, { justifyContent: "flex-start" }),
+    ...conditionAttrs(right, { alignItems: "flex-end" }),
+    ...conditionAttrs(bottom, { justifyContent: "flex-end" }),
+    ...conditionAttrs(left, { alignItems: "flex-start" }),
+    ...style
+  }
+  return (
+    <div style={myStyle} children={children} />
+  )
+}
